@@ -20,14 +20,750 @@
   "tripType": "Round trip"
  },
  "lastRun": {
-  "at": "2026-10-20T14:23:52+08:00",
-  "status": "error",
-  "message": "2027-01-16: SerpApi HTTP 401: {\n  \"error\": \"Invalid API key. Your API key should be here: https://serpapi.com/manage-api-key\"\n}; 2027-01-17: SerpApi HTTP 401: {\n  \"error\": \"Invalid API key. Your API key should be here: https://serpapi.com/manage-api-key\"\n}"
+  "at": "2026-10-20T14:31:48+08:00",
+  "status": "ok",
+  "message": "Checked 2027-01-16, 2027-01-17"
  },
  "usage": {
   "month": "2026-10",
-  "searches": 0
+  "searches": 2
  },
- "latest": {},
- "history": []
+ "latest": {
+  "2027-01-16": {
+   "fetchedAt": "2026-10-20T14:31:50+08:00",
+   "searchId": "6ad70ad4fb762002260b591a",
+   "googleFlightsUrl": "https://www.google.com/travel/flights?hl=en&gl=sg&curr=SGD&tfs=CBwQAhogEgoyMDI3LTAxLTE2KABqBwgBEgNTSU5yBwgBEgNMSFIaIBIKMjAyNy0wMS0zMSgAagcIARIDTEhScgcIARIDU0lOQAFIAXABmAEB&tfu=EgIIAQ",
+   "returnDate": "2027-01-31",
+   "priceInsights": {
+    "lowestPrice": 1511,
+    "priceLevel": "typical",
+    "typicalRange": [
+     1000,
+     2250
+    ],
+    "history": [
+     [
+      1787241600,
+      1221
+     ],
+     [
+      1787328000,
+      1218
+     ],
+     [
+      1787414400,
+      1218
+     ],
+     [
+      1787500800,
+      1205
+     ],
+     [
+      1787587200,
+      1205
+     ],
+     [
+      1787673600,
+      1205
+     ],
+     [
+      1787760000,
+      1207
+     ],
+     [
+      1787846400,
+      1207
+     ],
+     [
+      1787932800,
+      1239
+     ],
+     [
+      1788019200,
+      1322
+     ],
+     [
+      1788105600,
+      1318
+     ],
+     [
+      1788192000,
+      1318
+     ],
+     [
+      1788278400,
+      1318
+     ],
+     [
+      1788364800,
+      1326
+     ],
+     [
+      1788451200,
+      1326
+     ],
+     [
+      1788537600,
+      1255
+     ],
+     [
+      1788624000,
+      1255
+     ],
+     [
+      1788710400,
+      1279
+     ],
+     [
+      1788796800,
+      1264
+     ],
+     [
+      1788883200,
+      1264
+     ],
+     [
+      1788969600,
+      1265
+     ],
+     [
+      1789056000,
+      1265
+     ],
+     [
+      1789142400,
+      1265
+     ],
+     [
+      1789228800,
+      1269
+     ],
+     [
+      1789315200,
+      1280
+     ],
+     [
+      1789401600,
+      1287
+     ],
+     [
+      1789488000,
+      1287
+     ],
+     [
+      1789574400,
+      1469
+     ],
+     [
+      1789660800,
+      1495
+     ],
+     [
+      1789747200,
+      1495
+     ],
+     [
+      1789833600,
+      1498
+     ],
+     [
+      1789920000,
+      1498
+     ],
+     [
+      1790006400,
+      1506
+     ],
+     [
+      1790092800,
+      1357
+     ],
+     [
+      1790179200,
+      1296
+     ],
+     [
+      1790265600,
+      1286
+     ],
+     [
+      1790352000,
+      1286
+     ],
+     [
+      1790438400,
+      1437
+     ],
+     [
+      1790524800,
+      1311
+     ],
+     [
+      1790611200,
+      1309
+     ],
+     [
+      1790697600,
+      1473
+     ],
+     [
+      1790784000,
+      1473
+     ],
+     [
+      1790870400,
+      1468
+     ],
+     [
+      1790956800,
+      1468
+     ],
+     [
+      1791043200,
+      1470
+     ],
+     [
+      1791129600,
+      1468
+     ],
+     [
+      1791216000,
+      1468
+     ],
+     [
+      1791302400,
+      1469
+     ],
+     [
+      1791388800,
+      1497
+     ],
+     [
+      1791475200,
+      1493
+     ],
+     [
+      1791561600,
+      1493
+     ],
+     [
+      1791648000,
+      1494
+     ],
+     [
+      1791734400,
+      1500
+     ],
+     [
+      1791820800,
+      1500
+     ],
+     [
+      1791907200,
+      1500
+     ],
+     [
+      1791993600,
+      1498
+     ],
+     [
+      1792080000,
+      1498
+     ],
+     [
+      1792166400,
+      1500
+     ],
+     [
+      1792252800,
+      1506
+     ],
+     [
+      1792339200,
+      1506
+     ],
+     [
+      1792425600,
+      1511
+     ]
+    ]
+   },
+   "flights": [
+    {
+     "flightNumber": "BA16",
+     "airlineCode": "BA",
+     "airline": "British Airways",
+     "depAirport": "SIN",
+     "depTime": "2027-01-16 23:05",
+     "arrAirport": "LHR",
+     "arrTime": "2027-01-17 05:25",
+     "durationMin": 860,
+     "aircraft": "Boeing 777",
+     "legroom": "31 in",
+     "price": 1511
+    },
+    {
+     "flightNumber": "BA12",
+     "airlineCode": "BA",
+     "airline": "British Airways",
+     "depAirport": "SIN",
+     "depTime": "2027-01-16 23:15",
+     "arrAirport": "LHR",
+     "arrTime": "2027-01-17 05:45",
+     "durationMin": 870,
+     "aircraft": "Airbus A380",
+     "legroom": "31 in",
+     "price": 1511
+    },
+    {
+     "flightNumber": "QF219",
+     "airlineCode": "QF",
+     "airline": "Qantas",
+     "depAirport": "SIN",
+     "depTime": "2027-01-16 23:10",
+     "arrAirport": "LHR",
+     "arrTime": "2027-01-17 05:30",
+     "durationMin": 860,
+     "aircraft": "Boeing 787",
+     "legroom": "32 in",
+     "price": 1987
+    },
+    {
+     "flightNumber": "QF1",
+     "airlineCode": "QF",
+     "airline": "Qantas",
+     "depAirport": "SIN",
+     "depTime": "2027-01-16 23:35",
+     "arrAirport": "LHR",
+     "arrTime": "2027-01-17 06:15",
+     "durationMin": 880,
+     "aircraft": "Airbus A380",
+     "legroom": "31 in",
+     "price": 1987
+    },
+    {
+     "flightNumber": "SQ308",
+     "airlineCode": "SQ",
+     "airline": "Singapore Airlines",
+     "depAirport": "SIN",
+     "depTime": "2027-01-16 09:00",
+     "arrAirport": "LHR",
+     "arrTime": "2027-01-16 15:20",
+     "durationMin": 860,
+     "aircraft": "Airbus A380",
+     "legroom": "32 in",
+     "price": 2083
+    },
+    {
+     "flightNumber": "SQ318",
+     "airlineCode": "SQ",
+     "airline": "Singapore Airlines",
+     "depAirport": "SIN",
+     "depTime": "2027-01-16 12:45",
+     "arrAirport": "LHR",
+     "arrTime": "2027-01-16 19:10",
+     "durationMin": 865,
+     "aircraft": "Boeing 777",
+     "legroom": "32 in",
+     "price": 2083
+    },
+    {
+     "flightNumber": "SQ322",
+     "airlineCode": "SQ",
+     "airline": "Singapore Airlines",
+     "depAirport": "SIN",
+     "depTime": "2027-01-16 23:25",
+     "arrAirport": "LHR",
+     "arrTime": "2027-01-17 05:55",
+     "durationMin": 870,
+     "aircraft": "Airbus A380",
+     "legroom": "32 in",
+     "price": 2171
+    },
+    {
+     "flightNumber": "SQ306",
+     "airlineCode": "SQ",
+     "airline": "Singapore Airlines",
+     "depAirport": "SIN",
+     "depTime": "2027-01-16 01:10",
+     "arrAirport": "LHR",
+     "arrTime": "2027-01-16 07:40",
+     "durationMin": 870,
+     "aircraft": "Airbus A350",
+     "legroom": "32 in",
+     "price": 2392
+    }
+   ]
+  },
+  "2027-01-17": {
+   "fetchedAt": "2026-10-20T14:31:53+08:00",
+   "searchId": "6ad70ad76a1f11fee0c5f99b",
+   "googleFlightsUrl": "https://www.google.com/travel/flights?hl=en&gl=sg&curr=SGD&tfs=CBwQAhogEgoyMDI3LTAxLTE3KABqBwgBEgNTSU5yBwgBEgNMSFIaIBIKMjAyNy0wMS0zMSgAagcIARIDTEhScgcIARIDU0lOQAFIAXABmAEB&tfu=EgIIAQ",
+   "returnDate": "2027-01-31",
+   "priceInsights": {
+    "lowestPrice": 1329,
+    "priceLevel": "typical",
+    "typicalRange": [
+     1000,
+     2250
+    ],
+    "history": [
+     [
+      1787241600,
+      1086
+     ],
+     [
+      1787328000,
+      1085
+     ],
+     [
+      1787414400,
+      1085
+     ],
+     [
+      1787500800,
+      1085
+     ],
+     [
+      1787587200,
+      1084
+     ],
+     [
+      1787673600,
+      1087
+     ],
+     [
+      1787760000,
+      1086
+     ],
+     [
+      1787846400,
+      1178
+     ],
+     [
+      1787932800,
+      1178
+     ],
+     [
+      1788019200,
+      1178
+     ],
+     [
+      1788105600,
+      1178
+     ],
+     [
+      1788192000,
+      1177
+     ],
+     [
+      1788278400,
+      1089
+     ],
+     [
+      1788364800,
+      1089
+     ],
+     [
+      1788451200,
+      1088
+     ],
+     [
+      1788537600,
+      1083
+     ],
+     [
+      1788624000,
+      1083
+     ],
+     [
+      1788710400,
+      1083
+     ],
+     [
+      1788796800,
+      1094
+     ],
+     [
+      1788883200,
+      1088
+     ],
+     [
+      1788969600,
+      1081
+     ],
+     [
+      1789056000,
+      1080
+     ],
+     [
+      1789142400,
+      1087
+     ],
+     [
+      1789228800,
+      1089
+     ],
+     [
+      1789315200,
+      1089
+     ],
+     [
+      1789401600,
+      1085
+     ],
+     [
+      1789488000,
+      1085
+     ],
+     [
+      1789574400,
+      1359
+     ],
+     [
+      1789660800,
+      1359
+     ],
+     [
+      1789747200,
+      1363
+     ],
+     [
+      1789833600,
+      1363
+     ],
+     [
+      1789920000,
+      1351
+     ],
+     [
+      1790006400,
+      1351
+     ],
+     [
+      1790092800,
+      1234
+     ],
+     [
+      1790179200,
+      1170
+     ],
+     [
+      1790265600,
+      1170
+     ],
+     [
+      1790352000,
+      1171
+     ],
+     [
+      1790438400,
+      1191
+     ],
+     [
+      1790524800,
+      1191
+     ],
+     [
+      1790611200,
+      1194
+     ],
+     [
+      1790697600,
+      1284
+     ],
+     [
+      1790784000,
+      1289
+     ],
+     [
+      1790870400,
+      1295
+     ],
+     [
+      1790956800,
+      1293
+     ],
+     [
+      1791043200,
+      1292
+     ],
+     [
+      1791129600,
+      1293
+     ],
+     [
+      1791216000,
+      1292
+     ],
+     [
+      1791302400,
+      1305
+     ],
+     [
+      1791388800,
+      1307
+     ],
+     [
+      1791475200,
+      1302
+     ],
+     [
+      1791561600,
+      1302
+     ],
+     [
+      1791648000,
+      1303
+     ],
+     [
+      1791734400,
+      1309
+     ],
+     [
+      1791820800,
+      1309
+     ],
+     [
+      1791907200,
+      1306
+     ],
+     [
+      1791993600,
+      1307
+     ],
+     [
+      1792080000,
+      1312
+     ],
+     [
+      1792166400,
+      1316
+     ],
+     [
+      1792252800,
+      1315
+     ],
+     [
+      1792339200,
+      1315
+     ],
+     [
+      1792425600,
+      1329
+     ]
+    ]
+   },
+   "flights": [
+    {
+     "flightNumber": "BA12",
+     "airlineCode": "BA",
+     "airline": "British Airways",
+     "depAirport": "SIN",
+     "depTime": "2027-01-17 23:15",
+     "arrAirport": "LHR",
+     "arrTime": "2027-01-18 05:45",
+     "durationMin": 870,
+     "aircraft": "Airbus A380",
+     "legroom": "31 in",
+     "price": 1329
+    },
+    {
+     "flightNumber": "QF1",
+     "airlineCode": "QF",
+     "airline": "Qantas",
+     "depAirport": "SIN",
+     "depTime": "2027-01-17 23:35",
+     "arrAirport": "LHR",
+     "arrTime": "2027-01-18 06:15",
+     "durationMin": 880,
+     "aircraft": "Airbus A380",
+     "legroom": "31 in",
+     "price": 1370
+    },
+    {
+     "flightNumber": "BA16",
+     "airlineCode": "BA",
+     "airline": "British Airways",
+     "depAirport": "SIN",
+     "depTime": "2027-01-17 23:05",
+     "arrAirport": "LHR",
+     "arrTime": "2027-01-18 05:25",
+     "durationMin": 860,
+     "aircraft": "Boeing 777",
+     "legroom": "31 in",
+     "price": 1511
+    },
+    {
+     "flightNumber": "QF219",
+     "airlineCode": "QF",
+     "airline": "Qantas",
+     "depAirport": "SIN",
+     "depTime": "2027-01-17 23:10",
+     "arrAirport": "LHR",
+     "arrTime": "2027-01-18 05:30",
+     "durationMin": 860,
+     "aircraft": "Boeing 787",
+     "legroom": "32 in",
+     "price": 1678
+    },
+    {
+     "flightNumber": "SQ318",
+     "airlineCode": "SQ",
+     "airline": "Singapore Airlines",
+     "depAirport": "SIN",
+     "depTime": "2027-01-17 12:45",
+     "arrAirport": "LHR",
+     "arrTime": "2027-01-17 19:10",
+     "durationMin": 865,
+     "aircraft": "Boeing 777",
+     "legroom": "32 in",
+     "price": 2839
+    },
+    {
+     "flightNumber": "SQ322",
+     "airlineCode": "SQ",
+     "airline": "Singapore Airlines",
+     "depAirport": "SIN",
+     "depTime": "2027-01-17 23:25",
+     "arrAirport": "LHR",
+     "arrTime": "2027-01-18 05:55",
+     "durationMin": 870,
+     "aircraft": "Airbus A380",
+     "legroom": "32 in",
+     "price": 2839
+    }
+   ]
+  }
+ },
+ "history": [
+  {
+   "t": "2026-10-20T14:31:50+08:00",
+   "d": "2027-01-16",
+   "id": "6ad70ad4fb762002260b591a",
+   "p": {
+    "BA16": 1511,
+    "BA12": 1511,
+    "QF219": 1987,
+    "QF1": 1987,
+    "SQ308": 2083,
+    "SQ318": 2083,
+    "SQ322": 2171,
+    "SQ306": 2392
+   }
+  },
+  {
+   "t": "2026-10-20T14:31:53+08:00",
+   "d": "2027-01-17",
+   "id": "6ad70ad76a1f11fee0c5f99b",
+   "p": {
+    "BA12": 1329,
+    "QF1": 1370,
+    "BA16": 1511,
+    "QF219": 1678,
+    "SQ318": 2839,
+    "SQ322": 2839
+   }
+  }
+ ]
 }
