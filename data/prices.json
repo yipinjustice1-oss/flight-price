@@ -20,18 +20,18 @@
   "tripType": "Round trip"
  },
  "lastRun": {
-  "at": "2026-10-20T14:48:09+08:00",
+  "at": "2026-10-20T22:03:22+08:00",
   "status": "ok",
   "message": "Checked 2027-01-16, 2027-01-17"
  },
  "usage": {
   "month": "2026-10",
-  "searches": 4
+  "searches": 6
  },
  "latest": {
   "2027-01-16": {
-   "fetchedAt": "2026-10-20T14:48:13+08:00",
-   "searchId": "6ad70ea92b568351d4011be9",
+   "fetchedAt": "2026-10-20T22:03:29+08:00",
+   "searchId": "6ad774aa392e0b135fcaabbf",
    "googleFlightsUrl": "https://www.google.com/travel/flights?hl=en&gl=sg&curr=SGD&tfs=CBwQAhogEgoyMDI3LTAxLTE2KABqBwgBEgNTSU5yBwgBEgNMSFIaIBIKMjAyNy0wNi0wNSgAagcIARIDTEhScgcIARIDU0lOQAFIAXABmAEB&tfu=EgIIAQ",
    "returnDate": "2027-06-05",
    "priceInsights": {
@@ -78,7 +78,7 @@
      "durationMin": 860,
      "aircraft": "Boeing 777",
      "legroom": "31 in",
-     "price": 1501
+     "price": 1574
     },
     {
      "flightNumber": "BA12",
@@ -91,7 +91,7 @@
      "durationMin": 870,
      "aircraft": "Airbus A380",
      "legroom": "31 in",
-     "price": 1501
+     "price": 1574
     },
     {
      "flightNumber": "SQ322",
@@ -104,7 +104,7 @@
      "durationMin": 870,
      "aircraft": "Airbus A380",
      "legroom": "32 in",
-     "price": 1769
+     "price": 1767
     },
     {
      "flightNumber": "QF219",
@@ -143,13 +143,13 @@
      "durationMin": 870,
      "aircraft": "Airbus A350",
      "legroom": "32 in",
-     "price": 1987
+     "price": 1986
     }
    ]
   },
   "2027-01-17": {
-   "fetchedAt": "2026-10-20T14:48:20+08:00",
-   "searchId": "6ad70ead895c9cc2e0795ff2",
+   "fetchedAt": "2026-10-20T22:03:36+08:00",
+   "searchId": "6ad774b1ff7823efb3bdaed3",
    "googleFlightsUrl": "https://www.google.com/travel/flights?hl=en&gl=sg&curr=SGD&tfs=CBwQAhogEgoyMDI3LTAxLTE3KABqBwgBEgNTSU5yBwgBEgNMSFIaIBIKMjAyNy0wNi0wNSgAagcIARIDTEhScgcIARIDU0lOQAFIAXABmAEB&tfu=EgIIAQ",
    "returnDate": "2027-06-05",
    "priceInsights": {
@@ -186,19 +186,6 @@
      "price": 1285
     },
     {
-     "flightNumber": "BA12",
-     "airlineCode": "BA",
-     "airline": "British Airways",
-     "depAirport": "SIN",
-     "depTime": "2027-01-17 23:15",
-     "arrAirport": "LHR",
-     "arrTime": "2027-01-18 05:45",
-     "durationMin": 870,
-     "aircraft": "Airbus A380",
-     "legroom": "31 in",
-     "price": 1319
-    },
-    {
      "flightNumber": "QF1",
      "airlineCode": "QF",
      "airline": "Qantas",
@@ -212,6 +199,19 @@
      "price": 1326
     },
     {
+     "flightNumber": "BA12",
+     "airlineCode": "BA",
+     "airline": "British Airways",
+     "depAirport": "SIN",
+     "depTime": "2027-01-17 23:15",
+     "arrAirport": "LHR",
+     "arrTime": "2027-01-18 05:45",
+     "durationMin": 870,
+     "aircraft": "Airbus A380",
+     "legroom": "31 in",
+     "price": 1371
+    },
+    {
      "flightNumber": "BA16",
      "airlineCode": "BA",
      "airline": "British Airways",
@@ -222,7 +222,7 @@
      "durationMin": 860,
      "aircraft": "Boeing 777",
      "legroom": "31 in",
-     "price": 1501
+     "price": 1574
     },
     {
      "flightNumber": "SQ322",
@@ -322,6 +322,38 @@
     "BA12": 1319,
     "QF1": 1326,
     "BA16": 1501,
+    "SQ322": 1599,
+    "QF219": 1634,
+    "SQ306": 1765
+   }
+  },
+  {
+   "t": "2026-10-20T22:03:29+08:00",
+   "d": "2027-01-16",
+   "r": "2027-06-05",
+   "id": "6ad774aa392e0b135fcaabbf",
+   "p": {
+    "SQ308": 1368,
+    "SQ318": 1368,
+    "BA16": 1574,
+    "BA12": 1574,
+    "SQ322": 1767,
+    "QF219": 1943,
+    "QF1": 1943,
+    "SQ306": 1986
+   }
+  },
+  {
+   "t": "2026-10-20T22:03:36+08:00",
+   "d": "2027-01-17",
+   "r": "2027-06-05",
+   "id": "6ad774b1ff7823efb3bdaed3",
+   "p": {
+    "SQ308": 1285,
+    "SQ318": 1285,
+    "QF1": 1326,
+    "BA12": 1371,
+    "BA16": 1574,
     "SQ322": 1599,
     "QF219": 1634,
     "SQ306": 1765
