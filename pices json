@@ -1,0 +1,123 @@
+{
+  "lastUpdated": "2026-10-20T11:00:00+08:00",
+  "route": "SIN -> LHR (Non-Stop)",
+  "targetLeedsArrival": "2027-01-18",
+  "currency": "SGD",
+  "tentativeReturnDate": "2027-01-31",
+  "januaryPriceCurve": [
+    {
+      "date": "2027-01-10",
+      "label": "10 Jan (Sun)",
+      "oneWayMin": 959,
+      "roundTrip14dMin": 1536,
+      "roundTrip15dMin": 1569
+    },
+    {
+      "date": "2027-01-11",
+      "label": "11 Jan (Mon)",
+      "oneWayMin": 933,
+      "roundTrip14dMin": 1383,
+      "roundTrip15dMin": 1427
+    },
+    {
+      "date": "2027-01-12",
+      "label": "12 Jan (Tue)",
+      "oneWayMin": 988,
+      "roundTrip14dMin": 1340,
+      "roundTrip15dMin": 1337
+    },
+    {
+      "date": "2027-01-13",
+      "label": "13 Jan (Wed)",
+      "oneWayMin": 988,
+      "roundTrip14dMin": 1325,
+      "roundTrip15dMin": 1427
+    },
+    {
+      "date": "2027-01-14",
+      "label": "14 Jan (Thu)",
+      "oneWayMin": 988,
+      "roundTrip14dMin": 1427,
+      "roundTrip15dMin": 1631
+    },
+    {
+      "date": "2027-01-15",
+      "label": "15 Jan (Fri)",
+      "oneWayMin": 933,
+      "roundTrip14dMin": 1834,
+      "roundTrip15dMin": 1631
+    },
+    {
+      "date": "2027-01-16",
+      "label": "16 Jan (Sat) \u2605",
+      "oneWayMin": 933,
+      "roundTrip14dMin": 1612,
+      "roundTrip15dMin": 1514
+    },
+    {
+      "date": "2027-01-17",
+      "label": "17 Jan (Sun) \u2605",
+      "oneWayMin": 933,
+      "roundTrip14dMin": 1332,
+      "roundTrip15dMin": 1320
+    },
+    {
+      "date": "2027-01-18",
+      "label": "18 Jan (Mon)",
+      "oneWayMin": 917,
+      "roundTrip14dMin": 1320,
+      "roundTrip15dMin": 1304
+    },
+    {
+      "date": "2027-01-19",
+      "label": "19 Jan (Tue)",
+      "oneWayMin": 895,
+      "roundTrip14dMin": 1304,
+      "roundTrip15dMin": 1320
+    },
+    {
+      "date": "2027-01-20",
+      "label": "20 Jan (Wed)",
+      "oneWayMin": 972,
+      "roundTrip14dMin": 1320,
+      "roundTrip15dMin": 1320
+    },
+    {
+      "date": "2027-01-21",
+      "label": "21 Jan (Thu)",
+      "oneWayMin": 972,
+      "roundTrip14dMin": 1320,
+      "roundTrip15dMin": 1320
+    }
+  ],
+  "dailySnapshots": [
+    {
+      "capturedAt": "2026-10-20 11:00 SGT",
+      "depDate": "2027-01-17",
+      "baRoundTripBase": 1332,
+      "baRoundTripChangeable": 1425,
+      "qfRoundTripBase": 1370,
+      "qfRoundTripChangeable": 1370,
+      "sqRoundTripBase": 1612,
+      "sqRoundTripChangeable": 1740,
+      "baOneWayBase": 933,
+      "sqOneWayBase": 942,
+      "qfOneWayBase": 1106,
+      "notes": "Initial baseline snapshot via Google Flights & Skyscanner SG (Return sample: 31 Jan 2027)"
+    },
+    {
+      "capturedAt": "2026-10-20 11:00 SGT",
+      "depDate": "2027-01-16",
+      "baRoundTripBase": 1514,
+      "baRoundTripChangeable": 1605,
+      "qfRoundTripBase": 1987,
+      "qfRoundTripChangeable": 1987,
+      "sqRoundTripBase": 2081,
+      "sqRoundTripChangeable": 2210,
+      "baOneWayBase": 933,
+      "sqOneWayBase": 972,
+      "qfOneWayBase": 1106,
+      "notes": "Initial baseline snapshot for Sat 16 Jan departure (Return sample: 31 Jan 2027)"
+    }
+  ]
+}
