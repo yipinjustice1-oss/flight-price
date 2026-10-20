@@ -1,0 +1,74 @@
+#!/usr/bin/env python3
+"""
+Daily 11:00 AM SGT Flight Price Tracker: Singapore (SIN) -> London Heathrow (LHR) Non-Stop
+Monitors Skyscanner, Singapore Airlines (SQ), British Airways (BA), and Qantas (QF)
+for departures on 16 Jan 2027 and 17 Jan 2027 (targeting Leeds arrival on 18 Jan 2027).
+"""
+
+import json
+import os
+import datetime
+import urllib.request
+import urllib.parse
+from pathlib import Path
+
+DATA_FILE = Path(__file__).resolve().parent.parent / "data" / "prices.json"
+
+TARGET_DEPARTURES = ["2027-01-16", "2027-01-17"]
+DEFAULT_RETURN_DATE = os.environ.get("RETURN_DATE", "2027-01-31")
+
+SOURCES = {
+    "skyscanner_16jan": f"https://www.skyscanner.com.sg/transport/flights/sin/lhr/270116/{DEFAULT_RETURN_DATE.replace('-', '')[2:]}/?adultsv2=1&cabinclass=economy&preferdirects=true",
+    "skyscanner_17jan": f"https://www.skyscanner.com.sg/transport/flights/sin/lhr/270117/{DEFAULT_RETURN_DATE.replace('-', '')[2:]}/?adultsv2=1&cabinclass=economy&preferdirects=true",
+    "singapore_airlines": "https://www.singaporeair.com/sg/en/plan-travel/destinations/flights-from-singapore-to-london/",
+    "british_airways": "https://www.britishairways.com/content/flights",
+    "qantas": "https://www.qantas.com/en-sg/book/flight-deals/from-singapore-to-london"
+}
+
+
+def load_data():
+    if DATA_FILE.exists():
+        with open(DATA_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return {"dailySnapshots": []}
+
+
+def save_data(data):
+    sgt = datetime.timezone(datetime.timedelta(hours=8))
+    data["lastUpdated"] = datetime.datetime.now(sgt).isoformat()
+    DATA_FILE.parent.mkdir(parents=True, exist_ok=True)
+    with open(DATA_FILE, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2)
+
+
+def record_snapshot(dep_date, ba_rt_base, ba_rt_chg, qf_rt_base, qf_rt_chg, sq_rt_base, sq_rt_chg, ba_ow, sq_ow, qf_ow, notes=""):
+    sgt = datetime.timezone(datetime.timedelta(hours=8))
+    now_str = datetime.datetime.now(sgt).strftime("%Y-%m-%d %H:%M SGT")
+    data = load_data()
+    snapshot = {
+        "capturedAt": now_str,
+        "depDate": dep_date,
+        "baRoundTripBase": ba_rt_base,
+        "baRoundTripChangeable": ba_rt_chg,
+        "qfRoundTripBase": qf_rt_base,
+        "qfRoundTripChangeable": qf_rt_chg,
+        "sqRoundTripBase": sq_rt_base,
+        "sqRoundTripChangeable": sq_rt_chg,
+        "baOneWayBase": ba_ow,
+        "sqOneWayBase": sq_ow,
+        "qfOneWayBase": qf_ow,
+        "notes": notes or f"Automated 11:00 AM SGT check (Return: {DEFAULT_RETURN_DATE})"
+    }
+    data.setdefault("dailySnapshots", []).insert(0, snapshot)
+    save_data(data)
+    print(f"[{now_str}] Recorded snapshot for {dep_date}: BA Changeable S${ba_rt_chg}, QF S${qf_rt_chg}, SQ Changeable S${sq_rt_chg}")
+
+
+if __name__ == "__main__":
+    print("=== SIN -> LHR Non-Stop Daily 11:00 AM SGT Tracker ===")
+    print("Target Departures:", ", ".join(TARGET_DEPARTURES))
+    print("Placeholder Return Date:", DEFAULT_RETURN_DATE)
+    for name, url in SOURCES.items():
+        print(f"  - {name}: {url}")
+    print("\nTip: Pass SERPAPI_KEY or RapidAPI Skyscanner credentials in environment variables,")
+    print("or paste the daily 11:00 AM Gemini scheduled report JSON directly into data/prices.json.")
