@@ -336,7 +336,8 @@ let DATA, STATE = { date: null }, chart;
 
 function cfg() { return DATA.config || {}; }
 function flightsFor(date) { return ((DATA.latest || {})[date] || {}).flights || []; }
-function historyFor(date) { return (DATA.history || []).filter((h) => h.d === date).sort((a, b) => a.t.localeCompare(b.t)); }
+/* Only compare checks made with the current return date; other return dates price differently. */
+function historyFor(date) { return (DATA.history || []).filter((h) => h.d === date && h.r === cfg().returnDate).sort((a, b) => a.t.localeCompare(b.t)); }
 
 function score(f) {
   const c = cfg();
@@ -421,7 +422,9 @@ function renderSummary() {
   const low = cheapest(all);
   const pref = c.preferredAirline;
   const prefName = airlineName(pref);
-  const bestPref = cheapest(all.filter((f) => f.airlineCode === pref));
+  const prefAll = all.filter((f) => f.airlineCode === pref);
+  const prefOnDay = prefAll.filter((f) => arrivalDate(f) === c.arriveBy);
+  const bestPref = cheapest(prefOnDay.length ? prefOnDay : prefAll);
   const pts = [];
 
   pts.push({ material: true, html: `<strong>The live fare is the cheapest fare type.</strong> For Singapore Airlines that is usually Economy Lite, which can't change dates. Price Economy Value or above on singaporeair.com before you book if your return may move.` });
@@ -458,7 +461,8 @@ function renderSummary() {
     <dt>Lands ${esc(pick.arrAirport || "LHR")}</dt><dd>${fmtLocal(pick.arrTime)}</dd>
     ${leeds ? `<dt>Leeds by</dt><dd>about ${fmtTime(leeds)}, ${fmtDay(leeds)}</dd>` : ""}`;
   $("pickFare").textContent = money(pick.price);
-  $("pickFareSub").innerHTML = `${deltaHtml(delta(focus, pick.flightNumber))} since the previous check`;
+  const d = delta(focus, pick.flightNumber);
+  $("pickFareSub").innerHTML = d === null ? "First check with this return date" : `${deltaHtml(d)} since the previous check`;
 }
 
 /* ---------- Render: table ---------- */
