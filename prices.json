@@ -1,0 +1,23 @@
+{
+ "schema": 2,
+ "source": "Google Flights via SerpApi",
+ "config": {
+  "origin": "SIN",
+  "destination": "LHR",
+  "departures": ["2027-01-16", "2027-01-17"],
+  "returnDate": "2027-01-31",
+  "focusDate": "2027-01-17",
+  "arriveBy": "2027-01-18",
+  "preferredAirline": "SQ",
+  "preferredAllowance": 150,
+  "currency": "SGD",
+  "cabin": "Economy",
+  "adults": 1,
+  "stops": "Non-stop only",
+  "tripType": "Round trip"
+ },
+ "lastRun": {"status": "never"},
+ "usage": {"month": null, "searches": 0},
+ "latest": {},
+ "history": []
+}
