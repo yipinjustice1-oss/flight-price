@@ -15,7 +15,7 @@ Rules this script follows:
 Settings (environment variables, all optional except SERPAPI_KEY):
   SERPAPI_KEY            your SerpApi key (store it as a GitHub Actions secret)
   DEPARTURE_DATES        comma-separated YYYY-MM-DD, default 2027-01-16,2027-01-17
-  RETURN_DATE            YYYY-MM-DD, default 2027-01-31
+  RETURN_DATE            YYYY-MM-DD, default 2027-06-05
   FOCUS_DATE             the departure date the summary is about, default 2027-01-17
   ARRIVE_BY              the UK date you need to be in Leeds, default 2027-01-18
   PREFERRED_AIRLINE      IATA code given extra weight, default SQ
@@ -49,7 +49,7 @@ CONFIG = {
     "origin": os.environ.get("ORIGIN", "SIN"),
     "destination": os.environ.get("DESTINATION", "LHR"),
     "departures": env_list("DEPARTURE_DATES", "2027-01-16,2027-01-17"),
-    "returnDate": os.environ.get("RETURN_DATE", "2027-01-31"),
+    "returnDate": os.environ.get("RETURN_DATE", "2027-06-05"),
     "focusDate": os.environ.get("FOCUS_DATE", "2027-01-17"),
     "arriveBy": os.environ.get("ARRIVE_BY", "2027-01-18"),
     "preferredAirline": os.environ.get("PREFERRED_AIRLINE", "SQ"),
@@ -232,6 +232,7 @@ def main():
             data["history"].append({
                 "t": fetched_at,
                 "d": date,
+                "r": CONFIG["returnDate"],
                 "id": meta.get("id"),
                 "p": {f["flightNumber"]: f["price"] for f in flights},
             })
