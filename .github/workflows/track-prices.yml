@@ -28,7 +28,7 @@ jobs:
         env:
           SERPAPI_KEY: ${{ secrets.SERPAPI_KEY }}
           DEPARTURE_DATES: '2027-01-16,2027-01-17'
-          RETURN_DATE: '2027-01-31'
+          RETURN_DATE: '2027-06-05'
           FOCUS_DATE: '2027-01-17'
           ARRIVE_BY: '2027-01-18'
           PREFERRED_AIRLINE: 'SQ'
