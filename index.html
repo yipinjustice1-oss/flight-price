@@ -570,7 +570,7 @@ function renderRouteTable(rid) {
       <td><span class="when">${dep ? fmtTime(dep) : "–"}</span><span class="sub">${dep ? fmtDay(dep) : ""}, ${esc(f.depAirport || "")}</span>${night ? `<span class="sub night">night of ${fmtDay(night)}</span>` : ""}</td>
       <td><span class="when">${arr ? fmtTime(arr) : "–"}</span><span class="sub">${arr ? fmtDay(arr) : ""}, ${esc(f.arrAirport || "")}</span></td>
       <td>${leedsCell(f)}</td>
-      <td>${stopsText(f)}<span class="sub">${esc(f.aircraft || "")}${f.durationMin ? `${f.aircraft ? ", " : ""}${fmtDuration(f.durationMin)}` : ""}</span></td>
+      <td>${stopsText(f)}<span class="sub">${esc(f.aircraft || "")}${f.durationMin ? `${f.aircraft ? ", " : ""}${fmtDuration(f.durationMin)}` : ""}</span>${f.fetchedAt && latestFor(rid, date).fetchedAt && f.fetchedAt < latestFor(rid, date).fetchedAt.slice(0, 16) ? `<span class="sub">price from the ${fmtStamp(f.fetchedAt)} check</span>` : ""}</td>
       <td class="num"><span class="price">${money(f.price)}</span></td>
       <td class="num">${deltaHtml(delta(rid, date, f.flightNumber))}</td>
     </tr>`;
@@ -670,14 +670,18 @@ function renderSource() {
   const links = routeIds().flatMap((rid) => (rcfg(rid).departures || []).map((d) => {
     const l = latestFor(rid, d);
     const label = `${rcfg(rid).destination}, ${fmtDay(parseLocal(d))}`;
-    return l.googleFlightsUrl
-      ? `<a href="${esc(l.googleFlightsUrl)}" target="_blank" rel="noopener noreferrer">${label} search on Google Flights</a> (fetched ${fmtStamp(l.fetchedAt)}${l.returnDate && l.returnDate !== c.returnDate ? `, returning ${fmtDay(parseLocal(l.returnDate))}` : ""})`
+    const main = l.googleFlightsUrl
+      ? `<a href="${esc(l.googleFlightsUrl)}" target="_blank" rel="noopener noreferrer">${label}${rcfg(rid).maxStops ? " non-stop" : ""} search on Google Flights</a> (fetched ${fmtStamp(l.fetchedAt)}${l.returnDate && l.returnDate !== c.returnDate ? `, returning ${fmtDay(parseLocal(l.returnDate))}` : ""})`
       : `${label}: no successful search yet`;
+    const mixed = l.mixedGoogleFlightsUrl
+      ? `<br><a href="${esc(l.mixedGoogleFlightsUrl)}" target="_blank" rel="noopener noreferrer">${label} one-stop search on Google Flights</a> (fetched ${fmtStamp(l.mixedFetchedAt)})`
+      : "";
+    return main + mixed;
   })).join("<br>");
   $("sourceList").innerHTML = `
     <dt>Source</dt><dd>${esc(DATA.source || "Google Flights via SerpApi")}</dd>
     <dt>Search</dt><dd>${esc(c.origin || "SIN")} to London Heathrow (non-stop) and Manchester (up to one stop), economy, ${c.adults || 1} adult, round trip returning ${c.returnDate ? fmtDay(parseLocal(c.returnDate)) + " " + parseLocal(c.returnDate).getUTCFullYear() : "–"}, prices in ${esc(c.currency || "SGD")}</dd>
-    <dt>Schedule</dt><dd>Two checks a day, around 09:00 and 21:00 SGT</dd>
+    <dt>Schedule</dt><dd>Two checks a day, around 09:00 and 21:00 SGT. Manchester one-stop options are re-checked once a day, at the 09:00 check.</dd>
     <dt>Last check</dt><dd><span class="${statusCls}">${statusText}</span>${run.at ? `, ${fmtStamp(run.at)}` : ""}${run.message ? `<span class="sub">${esc(run.message)}</span>` : ""}</dd>
     <dt>Searches this month</dt><dd>${use.searches ?? 0} used (free plan allows 250)</dd>
     <dt>Check a number</dt><dd>${links}</dd>
