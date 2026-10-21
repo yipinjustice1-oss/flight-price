@@ -1,10 +1,11 @@
-name: Track SIN-LHR fares
+name: Track SIN-UK fares
 
 on:
   schedule:
-    # 01:00, 09:00, 17:00 UTC = 09:00, 17:00, 01:00 SGT.
-    # 3 runs x 2 departure dates = ~180 searches a month (SerpApi free plan: 250).
-    - cron: '0 1,9,17 * * *'
+    # 01:00 and 13:00 UTC = 09:00 and 21:00 SGT.
+    # Each run: Heathrow x 2 dates + Manchester x 1 date = 3 searches.
+    # 2 runs a day x 3 = ~186 searches a month (SerpApi free plan: 250).
+    - cron: '0 1,13 * * *'
   workflow_dispatch:
 
 permissions:
@@ -27,12 +28,13 @@ jobs:
       - name: Fetch live fares from Google Flights (SerpApi)
         env:
           SERPAPI_KEY: ${{ secrets.SERPAPI_KEY }}
-          DEPARTURE_DATES: '2027-01-16,2027-01-17'
           RETURN_DATE: '2027-06-05'
-          FOCUS_DATE: '2027-01-17'
           ARRIVE_BY: '2027-01-18'
           PREFERRED_AIRLINE: 'SQ'
           PREFERRED_ALLOWANCE: '150'
+          LHR_DEPARTURES: '2027-01-16,2027-01-17'
+          MAN_DEPARTURES: '2027-01-18'
+          MAN_MAX_STOPS: '1'
         run: python3 scripts/fetch_prices.py
 
       # Runs even if the fetch failed, so the dashboard shows the failure instead of stale "ok".
