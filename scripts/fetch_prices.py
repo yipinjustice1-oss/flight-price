@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Live fare check: Singapore (SIN) -> London Heathrow (LHR), non-stop, economy, round trip.
+Live fare check: Singapore (SIN) to the UK (London Heathrow and Manchester), economy, round trip.
 
 Source: Google Flights, queried through SerpApi (https://serpapi.com/google-flights-api).
 
@@ -14,13 +14,14 @@ Rules this script follows:
 
 Settings (environment variables, all optional except SERPAPI_KEY):
   SERPAPI_KEY            your SerpApi key (store it as a GitHub Actions secret)
-  DEPARTURE_DATES        comma-separated YYYY-MM-DD, default 2027-01-16,2027-01-17
   RETURN_DATE            YYYY-MM-DD, default 2027-06-05
-  FOCUS_DATE             the departure date the summary is about, default 2027-01-17
   ARRIVE_BY              the UK date you need to be in Leeds, default 2027-01-18
   PREFERRED_AIRLINE      IATA code given extra weight, default SQ
   PREFERRED_ALLOWANCE    S$ the preferred airline may cost above the cheapest and still be
                          the pick, default 150
+  LHR_DEPARTURES         comma-separated dates for Heathrow, default 2027-01-16,2027-01-17
+  MAN_DEPARTURES         comma-separated dates for Manchester, default 2027-01-18
+  MAN_MAX_STOPS          0 = non-stop only, 1 = up to one stop (default 1; only SQ is non-stop)
   MONTHLY_SEARCH_BUDGET  stop searching once this many searches were made this month,
                          default 230 (SerpApi free plan is 250)
 """
@@ -38,28 +39,54 @@ ROOT = Path(__file__).resolve().parent.parent
 DATA_FILE = ROOT / "data" / "prices.json"
 API_URL = "https://serpapi.com/search.json"
 SGT = dt.timezone(dt.timedelta(hours=8))
-MAX_HISTORY_ROWS = 4000
+MAX_HISTORY_ROWS = 6000
+MAX_OPTIONS_PER_SEARCH = 25
 
 
 def env_list(name, default):
     return [x.strip() for x in os.environ.get(name, default).split(",") if x.strip()]
 
 
+def last_date(dates):
+    return dates[-1] if dates else None
+
+
 CONFIG = {
-    "origin": os.environ.get("ORIGIN", "SIN"),
-    "destination": os.environ.get("DESTINATION", "LHR"),
-    "departures": env_list("DEPARTURE_DATES", "2027-01-16,2027-01-17"),
+    "origin": "SIN",
     "returnDate": os.environ.get("RETURN_DATE", "2027-06-05"),
-    "focusDate": os.environ.get("FOCUS_DATE", "2027-01-17"),
     "arriveBy": os.environ.get("ARRIVE_BY", "2027-01-18"),
     "preferredAirline": os.environ.get("PREFERRED_AIRLINE", "SQ"),
     "preferredAllowance": int(os.environ.get("PREFERRED_ALLOWANCE", "150")),
     "currency": "SGD",
     "cabin": "Economy",
     "adults": 1,
-    "stops": "Non-stop only",
     "tripType": "Round trip",
 }
+
+_lhr = env_list("LHR_DEPARTURES", "2027-01-16,2027-01-17")
+_man = env_list("MAN_DEPARTURES", "2027-01-18")
+ROUTES = [
+    {
+        "id": "LHR",
+        "name": "London Heathrow",
+        "destination": "LHR",
+        "departures": _lhr,
+        "focusDate": os.environ.get("LHR_FOCUS_DATE", last_date(_lhr)),
+        "maxStops": 0,
+        "leedsMinutes": 275,
+        "leedsNote": "75 min for immigration and bags, then the Elizabeth line or Tube to King's Cross and an LNER train to Leeds (about 4 h 35 min in total).",
+    },
+    {
+        "id": "MAN",
+        "name": "Manchester",
+        "destination": "MAN",
+        "departures": _man,
+        "focusDate": os.environ.get("MAN_FOCUS_DATE", last_date(_man)),
+        "maxStops": int(os.environ.get("MAN_MAX_STOPS", "1")),
+        "leedsMinutes": 160,
+        "leedsNote": "60 min for immigration and bags, then the direct TransPennine train from Manchester Airport to Leeds (about 2 h 40 min in total).",
+    },
+]
 MONTHLY_BUDGET = int(os.environ.get("MONTHLY_SEARCH_BUDGET", "230"))
 
 
@@ -67,27 +94,46 @@ def now_sgt():
     return dt.datetime.now(SGT).replace(microsecond=0)
 
 
-def load_data():
-    if DATA_FILE.exists():
-        with open(DATA_FILE, encoding="utf-8") as f:
-            data = json.load(f)
-        if data.get("schema") == 2:
-            return data
-        # Older files mixed hand-entered figures with checks; start clean rather than trust them.
-        print("Existing prices.json is not schema 2; starting a clean, API-only file.")
+def empty_data():
     return {
-        "schema": 2,
+        "schema": 3,
         "source": "Google Flights via SerpApi",
         "config": {},
         "lastRun": {"status": "never"},
         "usage": {"month": None, "searches": 0},
-        "latest": {},
+        "routes": {},
         "history": [],
     }
 
 
+def load_data():
+    if not DATA_FILE.exists():
+        return empty_data()
+    with open(DATA_FILE, encoding="utf-8") as f:
+        data = json.load(f)
+    if data.get("schema") == 3:
+        return data
+    if data.get("schema") == 2:
+        # Heathrow-only file from the first version: keep its real checks under the LHR route.
+        migrated = empty_data()
+        migrated.update(lastRun=data.get("lastRun", migrated["lastRun"]), usage=data.get("usage", migrated["usage"]))
+        migrated["routes"]["LHR"] = {"latest": data.get("latest", {})}
+        for row in data.get("history", []):
+            row = dict(row)
+            row.setdefault("route", "LHR")
+            row.setdefault("r", None)
+            migrated["history"].append(row)
+        print("Migrated schema 2 prices.json to schema 3 (routes).")
+        return migrated
+    print("Existing prices.json is not a known schema; starting a clean, API-only file.")
+    return empty_data()
+
+
 def save_data(data):
+    data["schema"] = 3
     data["config"] = CONFIG
+    for route in ROUTES:
+        data["routes"].setdefault(route["id"], {"latest": {}})["config"] = route
     data["history"] = data["history"][-MAX_HISTORY_ROWS:]
     DATA_FILE.parent.mkdir(parents=True, exist_ok=True)
     tmp = DATA_FILE.with_suffix(".tmp")
@@ -97,16 +143,16 @@ def save_data(data):
     tmp.replace(DATA_FILE)
 
 
-def search(date, api_key):
+def search(route, date, api_key):
     params = {
         "engine": "google_flights",
         "departure_id": CONFIG["origin"],
-        "arrival_id": CONFIG["destination"],
+        "arrival_id": route["destination"],
         "outbound_date": date,
         "return_date": CONFIG["returnDate"],
         "type": "1",          # round trip
         "travel_class": "1",  # economy
-        "stops": "1",         # non-stop only
+        "stops": "1" if route["maxStops"] == 0 else "2",  # 1 = non-stop, 2 = up to one stop
         "adults": "1",
         "currency": CONFIG["currency"],
         "gl": "sg",
@@ -114,12 +160,12 @@ def search(date, api_key):
         "api_key": api_key,
     }
     url = API_URL + "?" + urllib.parse.urlencode(params)
-    req = urllib.request.Request(url, headers={"User-Agent": "flight-price-tracker/2.0"})
+    req = urllib.request.Request(url, headers={"User-Agent": "flight-price-tracker/3.0"})
     try:
         with urllib.request.urlopen(req, timeout=90) as resp:
             payload = json.load(resp)
     except urllib.error.HTTPError as e:
-        body = e.read().decode("utf-8", "replace")[:300]
+        body = " ".join(e.read().decode("utf-8", "replace").split())[:300]
         raise RuntimeError(f"SerpApi HTTP {e.code}: {body}") from None
     if payload.get("error"):
         raise RuntimeError(f"SerpApi error: {payload['error']}")
@@ -133,36 +179,49 @@ def minutes(value):
     return value if isinstance(value, int) and value > 0 else None
 
 
-def parse_flights(payload):
-    """Return non-stop options with a real price, cheapest per flight number."""
+def parse_flights(payload, max_stops, preferred):
+    """Return options with a real price and at most `max_stops` stops, cheapest per itinerary."""
     best = {}
     for item in (payload.get("best_flights") or []) + (payload.get("other_flights") or []):
         legs = item.get("flights") or []
         price = item.get("price")
-        if len(legs) != 1 or not isinstance(price, (int, float)) or price <= 0:
+        if not legs or len(legs) - 1 > max_stops or not isinstance(price, (int, float)) or price <= 0:
             continue
-        leg = legs[0]
-        number = (leg.get("flight_number") or "").replace(" ", "").upper()
-        if len(number) < 3:
+        numbers = [(leg.get("flight_number") or "").replace(" ", "").upper() for leg in legs]
+        if any(len(n) < 3 for n in numbers):
             continue
-        dep = leg.get("departure_airport") or {}
-        arr = leg.get("arrival_airport") or {}
+        key = "+".join(numbers)
+        first, last = legs[0], legs[-1]
+        dep = first.get("departure_airport") or {}
+        arr = last.get("arrival_airport") or {}
+        airlines = []
+        for leg in legs:
+            name = leg.get("airline")
+            if name and name not in airlines:
+                airlines.append(name)
         row = {
-            "flightNumber": number,
-            "airlineCode": number[:2],
-            "airline": leg.get("airline"),
+            "flightNumber": key,
+            "airlineCode": numbers[0][:2],
+            "airline": " + ".join(airlines) or None,
             "depAirport": dep.get("id"),
             "depTime": dep.get("time"),
             "arrAirport": arr.get("id"),
             "arrTime": arr.get("time"),
-            "durationMin": minutes(leg.get("duration")),
-            "aircraft": leg.get("airplane"),
-            "legroom": leg.get("legroom"),
+            "durationMin": minutes(item.get("total_duration")) or minutes(first.get("duration")),
+            "aircraft": first.get("airplane"),
+            "stops": len(legs) - 1,
+            "layovers": [
+                {"airport": lay.get("id"), "durationMin": minutes(lay.get("duration"))}
+                for lay in (item.get("layovers") or [])
+            ],
             "price": int(round(price)),
         }
-        if number not in best or row["price"] < best[number]["price"]:
-            best[number] = row
-    return sorted(best.values(), key=lambda r: r["price"])
+        if key not in best or row["price"] < best[key]["price"]:
+            best[key] = row
+    rows = sorted(best.values(), key=lambda r: r["price"])
+    keep = rows[:MAX_OPTIONS_PER_SEARCH]
+    keep += [r for r in rows[MAX_OPTIONS_PER_SEARCH:] if r["airlineCode"] == preferred]
+    return keep
 
 
 def parse_insights(payload):
@@ -201,44 +260,49 @@ def main():
         return 1
 
     errors, fetched = [], []
-    for date in CONFIG["departures"]:
-        if usage["searches"] >= MONTHLY_BUDGET:
-            errors.append(f"{date}: skipped, monthly search budget of {MONTHLY_BUDGET} reached")
-            continue
-        try:
-            payload = search(date, api_key)
-            usage["searches"] += 1
-            flights = parse_flights(payload)
-            if not flights:
-                raise RuntimeError("search succeeded but returned no priced non-stop flights")
-        except Exception as e:  # noqa: BLE001 - record any failure, never invent data
-            errors.append(f"{date}: {e}")
-            continue
+    for route in ROUTES:
+        store = data["routes"].setdefault(route["id"], {"latest": {}})
+        store.setdefault("latest", {})
+        for date in route["departures"]:
+            label = f"{route['id']} {date}"
+            if usage["searches"] >= MONTHLY_BUDGET:
+                errors.append(f"{label}: skipped, monthly search budget of {MONTHLY_BUDGET} reached")
+                continue
+            try:
+                payload = search(route, date, api_key)
+                usage["searches"] += 1
+                flights = parse_flights(payload, route["maxStops"], CONFIG["preferredAirline"])
+                if not flights:
+                    raise RuntimeError("search succeeded but returned no priced flights")
+            except Exception as e:  # noqa: BLE001 - record any failure, never invent data
+                errors.append(f"{label}: {e}")
+                continue
 
-        meta = payload.get("search_metadata") or {}
-        previous_id = (data["latest"].get(date) or {}).get("searchId")
-        fetched_at = now_sgt().isoformat()
-        data["latest"][date] = {
-            "fetchedAt": fetched_at,
-            "searchId": meta.get("id"),
-            "googleFlightsUrl": meta.get("google_flights_url"),
-            "returnDate": CONFIG["returnDate"],
-            "priceInsights": parse_insights(payload),
-            "flights": flights,
-        }
-        if meta.get("id") and meta.get("id") == previous_id:
-            print(f"{date}: SerpApi returned a cached result already on record; history unchanged.")
-        else:
-            data["history"].append({
-                "t": fetched_at,
-                "d": date,
-                "r": CONFIG["returnDate"],
-                "id": meta.get("id"),
-                "p": {f["flightNumber"]: f["price"] for f in flights},
-            })
-        fetched.append(date)
-        cheapest = flights[0]
-        print(f"{date}: {len(flights)} non-stop options, cheapest {cheapest['flightNumber']} S${cheapest['price']:,}")
+            meta = payload.get("search_metadata") or {}
+            previous_id = (store["latest"].get(date) or {}).get("searchId")
+            fetched_at = now_sgt().isoformat()
+            store["latest"][date] = {
+                "fetchedAt": fetched_at,
+                "searchId": meta.get("id"),
+                "googleFlightsUrl": meta.get("google_flights_url"),
+                "returnDate": CONFIG["returnDate"],
+                "priceInsights": parse_insights(payload),
+                "flights": flights,
+            }
+            if meta.get("id") and meta.get("id") == previous_id:
+                print(f"{label}: SerpApi returned a cached result already on record; history unchanged.")
+            else:
+                data["history"].append({
+                    "t": fetched_at,
+                    "route": route["id"],
+                    "d": date,
+                    "r": CONFIG["returnDate"],
+                    "id": meta.get("id"),
+                    "p": {f["flightNumber"]: f["price"] for f in flights},
+                })
+            fetched.append(label)
+            cheapest = flights[0]
+            print(f"{label}: {len(flights)} options, cheapest {cheapest['flightNumber']} S${cheapest['price']:,}")
 
     status = "ok" if not errors else ("partial" if fetched else "error")
     data["lastRun"] = {
