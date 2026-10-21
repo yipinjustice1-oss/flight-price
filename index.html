@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>SIN–LHR Fare Watch</title>
-<meta name="description" content="Live Singapore to London Heathrow non-stop fares for 16–17 Jan 2027, checked three times a day from Google Flights." />
+<title>SIN–Leeds Fare Watch</title>
+<meta name="description" content="Live Singapore to London Heathrow and Manchester fares for mid-January 2027, checked twice a day from Google Flights." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -20,9 +20,10 @@
     --accent: #F2B705;
     --accent-soft: #FDF3CF;
     --sq: #1D4F91;
-    --ba: #2A8C82;
-    --qf: #B5473A;
-    --other: #7A6A9E;
+    --c1: #2A8C82;
+    --c2: #B5473A;
+    --c3: #7A6A9E;
+    --c4: #A66A00;
     --google: #8A97A3;
     --down: #137A4B;
     --up: #B42318;
@@ -35,15 +36,15 @@
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
       --bg: #0C141D; --surface: #14202C; --stub: #182633; --ink: #E6EDF3; --muted: #93A4B4;
-      --rule: #26384A; --accent-soft: #2B2814; --sq: #7FB0F0; --ba: #5CC2B6; --qf: #E9887A;
-      --other: #B7A6E0; --google: #6F7F8E; --down: #4CC38A; --up: #F2877B; --warn-bg: #3A2A12; --warn-ink: #FFD59A;
+      --rule: #26384A; --accent-soft: #2B2814; --sq: #7FB0F0; --c1: #5CC2B6; --c2: #E9887A;
+      --c3: #B7A6E0; --c4: #E2B25A; --google: #6F7F8E; --down: #4CC38A; --up: #F2877B; --warn-bg: #3A2A12; --warn-ink: #FFD59A;
       color-scheme: dark;
     }
   }
   :root[data-theme="dark"] {
     --bg: #0C141D; --surface: #14202C; --stub: #182633; --ink: #E6EDF3; --muted: #93A4B4;
-    --rule: #26384A; --accent-soft: #2B2814; --sq: #7FB0F0; --ba: #5CC2B6; --qf: #E9887A;
-    --other: #B7A6E0; --google: #6F7F8E; --down: #4CC38A; --up: #F2877B; --warn-bg: #3A2A12; --warn-ink: #FFD59A;
+    --rule: #26384A; --accent-soft: #2B2814; --sq: #7FB0F0; --c1: #5CC2B6; --c2: #E9887A;
+    --c3: #B7A6E0; --c4: #E2B25A; --google: #6F7F8E; --down: #4CC38A; --up: #F2877B; --warn-bg: #3A2A12; --warn-ink: #FFD59A;
     color-scheme: dark;
   }
 
@@ -62,6 +63,7 @@
   .route { font: 700 22px/1.1 var(--condensed); letter-spacing: .01em; margin: 0; }
   .route span { color: var(--muted); font-weight: 500; }
   .checked { color: var(--muted); font-size: 15px; margin: 0; }
+  .jump { display: flex; gap: 16px; margin: 6px 0 0; font-size: 15px; }
 
   .notice { margin: 12px 0 0; padding: 10px 14px; border-radius: 8px; background: var(--warn-bg); color: var(--warn-ink); font-size: 15px; }
   .notice[hidden] { display: none; }
@@ -89,10 +91,10 @@
   .points li { padding-left: 18px; position: relative; font-size: 16px; }
   .points li::before { content: ""; position: absolute; left: 0; top: .62em; width: 7px; height: 7px; border-radius: 50%; background: var(--rule); }
   .points li.material::before { background: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
-  .points li.material strong:first-child { color: var(--ink); }
   .rule-note { margin: 18px 0 0; color: var(--muted); font-size: 14px; max-width: 64ch; }
 
-  .pick-code { font: 700 52px/1 var(--condensed); margin: 2px 0 2px; }
+  .pick-code { font: 700 52px/1 var(--condensed); margin: 2px 0 2px; overflow-wrap: anywhere; }
+  .pick-code.long { font-size: 36px; }
   .pick-airline { margin: 0 0 16px; color: var(--muted); }
   .legs { display: grid; grid-template-columns: auto 1fr; gap: 2px 14px; margin: 0 0 18px; font-size: 15px; }
   .legs dt { color: var(--muted); }
@@ -106,9 +108,11 @@
 
   /* Sections */
   section.block { padding: 40px 0 8px; }
+  .route-head { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: flex-end; justify-content: space-between; margin-bottom: 14px; }
+  .route-code { font: 600 18px/1 var(--condensed); color: var(--muted); margin: 0 0 4px; }
   h2 { font: 700 30px/1.1 var(--condensed); margin: 0 0 6px; }
+  h3.sub-h { font: 700 21px/1.15 var(--condensed); margin: 26px 0 8px; }
   .lede { color: var(--muted); margin: 0 0 16px; max-width: 70ch; }
-  .bar { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; justify-content: space-between; margin-bottom: 14px; }
   .seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 999px; padding: 3px; background: var(--surface); }
   .seg button {
     font: 600 15px/1 var(--body); color: var(--muted); background: none; border: 0; border-radius: 999px;
@@ -117,7 +121,7 @@
   .seg button[aria-pressed="true"] { background: var(--ink); color: var(--surface); }
 
   .table-wrap { overflow-x: auto; background: var(--surface); border-radius: 12px; border: 1px solid var(--rule); }
-  table { border-collapse: collapse; width: 100%; min-width: 760px; font-size: 15px; }
+  table { border-collapse: collapse; width: 100%; min-width: 820px; font-size: 15px; }
   th { text-align: left; font-weight: 500; color: var(--muted); padding: 12px 14px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
   td { padding: 13px 14px; border-bottom: 1px solid var(--rule); vertical-align: top; }
   tbody tr:last-child td { border-bottom: 0; }
@@ -126,17 +130,21 @@
   .al { color: var(--muted); font-size: 14px; }
   .when { white-space: nowrap; font-weight: 500; }
   .sub { display: block; color: var(--muted); font-size: 13px; }
+  .sub.night { color: var(--warn-ink); font-weight: 600; }
   .price { font: 700 22px/1.1 var(--condensed); }
   tr.preferred td:first-child { box-shadow: inset 4px 0 0 var(--sq); }
   tr.is-pick { background: var(--accent-soft); }
-  .tag { display: inline-block; font-size: 12px; font-weight: 600; padding: 1px 8px; border-radius: 999px; margin-left: 6px; vertical-align: 2px; }
+  .tag { display: inline-block; font: 600 12px/1.5 var(--body); padding: 0 8px; border-radius: 999px; margin-left: 6px; vertical-align: 3px; }
   .tag.pick { background: var(--accent); color: #2B2100; }
+  .tag.best { border: 1px solid var(--ink); color: var(--ink); }
   .tag.pref { border: 1px solid var(--sq); color: var(--sq); }
   .empty-row td { color: var(--muted); padding: 22px 14px; }
+  .more { margin: 10px 0 0; }
+  .more button { font: 600 15px/1 var(--body); color: var(--sq); background: none; border: 0; padding: 6px 0; cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
 
   .chart-box { background: var(--surface); border: 1px solid var(--rule); border-radius: 12px; padding: 16px 16px 10px; }
-  .chart-area { position: relative; height: 320px; }
-  .chart-empty { color: var(--muted); padding: 40px 8px; text-align: center; }
+  .chart-area { position: relative; height: 300px; }
+  .chart-empty { color: var(--muted); padding: 40px 8px; text-align: center; margin: 0; }
   .footnote { color: var(--muted); font-size: 14px; margin: 10px 0 0; max-width: 75ch; }
 
   .rules { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; background: var(--surface); border: 1px solid var(--rule); border-radius: 12px; }
@@ -175,7 +183,10 @@
 <body>
 <div class="wrap">
   <header class="masthead">
-    <p class="route">SIN <span>to</span> LHR <span>fare watch</span></p>
+    <div>
+      <p class="route">SIN <span>to</span> Leeds <span>fare watch</span></p>
+      <nav class="jump" id="jump" aria-label="Sections"></nav>
+    </div>
     <p class="checked" id="checked">Loading live prices…</p>
   </header>
   <p class="notice" id="notice" role="status" hidden></p>
@@ -191,7 +202,7 @@
         <p class="rule-note" id="ruleNote"></p>
       </div>
       <aside class="pass-stub" aria-label="Recommended flight">
-        <p class="field-label">Recommended flight</p>
+        <p class="field-label" id="pickLabel">Recommended flight</p>
         <p class="pick-code" id="pickCode">–</p>
         <p class="pick-airline" id="pickAirline">&nbsp;</p>
         <dl class="legs" id="pickLegs"></dl>
@@ -201,41 +212,7 @@
       </aside>
     </section>
 
-    <section class="block" aria-labelledby="h-flights">
-      <div class="bar">
-        <div>
-          <h2 id="h-flights">Every non-stop flight</h2>
-          <p class="lede" style="margin:0">Singapore Airlines is listed first unless another airline beats it by more than your allowance.</p>
-        </div>
-        <div class="seg" role="group" aria-label="Departure date" id="dateSeg"></div>
-      </div>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th scope="col">Flight</th>
-              <th scope="col">Leaves Singapore</th>
-              <th scope="col">Lands Heathrow</th>
-              <th scope="col">Leeds</th>
-              <th scope="col">Aircraft</th>
-              <th scope="col" class="num">Round-trip fare</th>
-              <th scope="col" class="num">Since last check</th>
-            </tr>
-          </thead>
-          <tbody id="flightRows"></tbody>
-        </table>
-      </div>
-      <p class="footnote">Leeds times are an estimate: 75 min for immigration and bags, then the Elizabeth line or Tube to King's Cross and an LNER train (about 4 h 35 min in total). Times are local at each airport.</p>
-    </section>
-
-    <section class="block" aria-labelledby="h-trend">
-      <h2 id="h-trend">How prices have moved</h2>
-      <p class="lede">Cheapest round-trip fare per airline at each check for <span id="trendDate">the selected date</span>. The dashed line is Google's own record of the cheapest non-stop fare on the route.</p>
-      <div class="chart-box">
-        <div class="chart-area"><canvas id="trendChart" aria-label="Fare history chart" role="img"></canvas></div>
-        <p class="chart-empty" id="chartEmpty" hidden>The chart fills in after a few automatic checks.</p>
-      </div>
-    </section>
+    <div id="routeSections"></div>
 
     <section class="block" aria-labelledby="h-rules">
       <h2 id="h-rules">Before you pay: changing your return date</h2>
@@ -266,7 +243,7 @@
           </dl>
         </div>
       </div>
-      <p class="footnote">Fare rules change. Confirm them on the airline's fare page before paying.</p>
+      <p class="footnote">For one-stop Manchester options on other airlines, check that airline's own fare rules. Fare rules change; confirm them before paying.</p>
     </section>
 
     <section class="block" aria-labelledby="h-source">
@@ -289,9 +266,9 @@ const DATA_SOURCES = (() => {
   return [`${raw}?t=${Date.now()}`, `data/prices.json?t=${Date.now()}`];
 })();
 
-const AIRLINES = { SQ: "Singapore Airlines", QF: "Qantas", BA: "British Airways" };
-const LEEDS_MINUTES = 275;
+const AIRLINES = { SQ: "Singapore Airlines", QF: "Qantas", BA: "British Airways", EK: "Emirates", QR: "Qatar Airways", EY: "Etihad", TK: "Turkish Airlines", CX: "Cathay Pacific", AY: "Finnair", VS: "Virgin Atlantic", KL: "KLM", AF: "Air France", LH: "Lufthansa", MH: "Malaysia Airlines", TG: "Thai Airways" };
 const STALE_HOURS = 26;
+const TABLE_ROWS = 10;
 
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -315,10 +292,22 @@ function fmtStamp(iso) {
   const sgt = new Date(d.getTime() + 8 * 3600e3);
   return `${fmtDay(sgt)}, ${fmtTime(sgt)} SGT`;
 }
-function fmtDuration(min) { return min ? `${Math.floor(min / 60)} h ${min % 60} min` : ""; }
-function airlineName(code, fallback) { return AIRLINES[code] || fallback || code; }
+function fmtDuration(min) { return min ? `${Math.floor(min / 60)} h ${String(min % 60).padStart(2, "0")} min` : ""; }
+function airlineName(code, fallback) { return fallback || AIRLINES[code] || code; }
+function codeName(code) { return AIRLINES[code] || code; }
+/* A departure between midnight and 05:59 is really the night before. */
+function nightOf(depTime) {
+  const d = parseLocal(depTime);
+  if (!d || d.getUTCHours() >= 6) return null;
+  return new Date(d.getTime() - 864e5);
+}
+function stopsText(f) {
+  if (!f.stops) return "Non-stop";
+  const lay = (f.layovers || []).map((l) => `${esc(l.airport)}${l.durationMin ? " " + fmtDuration(l.durationMin).replace(" min", "m").replace(" h ", "h ") : ""}`).join(", ");
+  return `${f.stops} stop${f.stops > 1 ? "s" : ""}${lay ? ` via ${lay}` : ""}`;
+}
 
-/* ---------- Load ---------- */
+/* ---------- Load and normalise ---------- */
 async function load() {
   let lastErr;
   for (const url of DATA_SOURCES) {
@@ -331,39 +320,67 @@ async function load() {
   throw lastErr || new Error("No data source reachable");
 }
 
+/* Accepts the Heathrow-only schema 2 file as well as the multi-route schema 3 file. */
+function normalise(d) {
+  if (d.schema === 3) return d;
+  const c = d.config || {};
+  return {
+    ...d, schema: 3,
+    config: c,
+    routes: { LHR: { config: { id: "LHR", name: "London Heathrow", destination: "LHR", departures: c.departures || [], focusDate: c.focusDate, maxStops: 0, leedsMinutes: 275, leedsNote: "75 min for immigration and bags, then the Elizabeth line or Tube to King's Cross and an LNER train to Leeds (about 4 h 35 min in total)." }, latest: d.latest || {} } },
+    history: (d.history || []).map((h) => ({ route: "LHR", ...h })),
+  };
+}
+
 /* ---------- Analysis ---------- */
-let DATA, STATE = { date: null }, chart;
+let DATA, STATE = {}, SHOW_ALL = {}, charts = {};
 
 function cfg() { return DATA.config || {}; }
-function flightsFor(date) { return ((DATA.latest || {})[date] || {}).flights || []; }
+function routeIds() { return Object.keys(DATA.routes || {}).sort((a, b) => (a === "LHR" ? -1 : b === "LHR" ? 1 : a.localeCompare(b))); }
+function rcfg(rid) { return (DATA.routes[rid] || {}).config || {}; }
+function latestFor(rid, date) { return ((DATA.routes[rid] || {}).latest || {})[date] || {}; }
+function flightsFor(rid, date) { return (latestFor(rid, date).flights || []).map((f) => ({ ...f, route: rid })); }
 /* Only compare checks made with the current return date; other return dates price differently. */
-function historyFor(date) { return (DATA.history || []).filter((h) => h.d === date && h.r === cfg().returnDate).sort((a, b) => a.t.localeCompare(b.t)); }
-
-function score(f) {
-  const c = cfg();
-  return f.price - (f.airlineCode === c.preferredAirline ? (c.preferredAllowance || 0) : 0);
+function historyFor(rid, date) {
+  return (DATA.history || []).filter((h) => h.route === rid && h.d === date && h.r === cfg().returnDate).sort((a, b) => a.t.localeCompare(b.t));
 }
+
+function isPref(f) { return f.airlineCode === cfg().preferredAirline; }
+function score(f) { return f.price - (isPref(f) ? (cfg().preferredAllowance || 0) : 0); }
 function arrivalDate(f) { const d = parseLocal(f.arrTime); return d ? isoDate(d) : null; }
-/* Flights landing on the Leeds day come first, then the SQ-weighted price. */
-function ranked(date) {
-  const onDay = (f) => (arrivalDate(f) === cfg().arriveBy ? 0 : 1);
-  return [...flightsFor(date)].sort((a, b) => onDay(a) - onDay(b) || score(a) - score(b) || a.price - b.price);
-}
-
-function pickFor(date) {
-  const all = flightsFor(date);
-  if (!all.length) return null;
-  const onTarget = all.filter((f) => arrivalDate(f) === cfg().arriveBy);
-  const pool = onTarget.length ? onTarget : all;
-  return [...pool].sort((a, b) => score(a) - score(b) || a.price - b.price)[0];
-}
+function onTargetDay(f) { return arrivalDate(f) === cfg().arriveBy; }
+function byScore(a, b) { return score(a) - score(b) || a.price - b.price; }
 function cheapest(list) { return list.length ? list.reduce((a, b) => (b.price < a.price ? b : a)) : null; }
 
-function priceTrail(date, flightNumber) {
-  return historyFor(date).map((h) => h.p[flightNumber]).filter((v) => typeof v === "number");
+/* Flights landing on the Leeds day first, then non-stop, then the SQ-weighted price. */
+function ranked(rid, date) {
+  return flightsFor(rid, date).sort((a, b) => (onTargetDay(a) ? 0 : 1) - (onTargetDay(b) ? 0 : 1) || (a.stops ? 1 : 0) - (b.stops ? 1 : 0) || byScore(a, b));
 }
-function delta(date, fn) {
-  const t = priceTrail(date, fn);
+/* Pick: lands on the Leeds day if possible, non-stop if possible, then the SQ-weighted price. */
+function pickPool(list) {
+  const onDay = list.filter(onTargetDay);
+  const pool = onDay.length ? onDay : list;
+  const direct = pool.filter((f) => !f.stops);
+  return direct.length ? direct : pool;
+}
+function pickFrom(list) {
+  return list.length ? [...pickPool(list)].sort(byScore)[0] : null;
+}
+function routePick(rid, date) { return pickFrom(flightsFor(rid, date || rcfg(rid).focusDate)); }
+function overallPick() {
+  return pickFrom(routeIds().flatMap((rid) => flightsFor(rid, rcfg(rid).focusDate)));
+}
+function leedsArrival(f) {
+  const arr = parseLocal(f.arrTime);
+  const mins = rcfg(f.route).leedsMinutes;
+  return arr && mins ? new Date(arr.getTime() + mins * 60e3) : null;
+}
+
+function priceTrail(rid, date, fn) {
+  return historyFor(rid, date).map((h) => h.p[fn]).filter((v) => typeof v === "number");
+}
+function delta(rid, date, fn) {
+  const t = priceTrail(rid, date, fn);
   if (t.length < 2) return null;
   return t[t.length - 1] - t[t.length - 2];
 }
@@ -375,17 +392,17 @@ function deltaHtml(d) {
     : `<span class="delta up">Up ${money(d)}</span>`;
 }
 
-function verdict(date, pick) {
-  const latest = (DATA.latest || {})[date] || {};
-  const pi = latest.priceInsights || {};
+function verdict(pick) {
+  const rid = pick.route, date = rcfg(rid).focusDate;
+  const pi = latestFor(rid, date).priceInsights || {};
   const range = pi.typicalRange;
   const rangeText = range ? ` (Google's typical range: ${money(range[0])}–${money(range[1])})` : "";
   const days = Math.round((parseLocal(date) - parseLocal(isoDate(new Date()))) / 864e5);
-  const trail = priceTrail(date, pick.flightNumber);
+  const trail = priceTrail(rid, date, pick.flightNumber);
   const lowestSeen = trail.length ? Math.min(...trail) : null;
 
   if (pi.priceLevel === "low") {
-    return { tone: "book", word: "Book now", reason: `Google rates fares for ${fmtDay(parseLocal(date))} as low right now${rangeText}. ${pick.flightNumber} is ${money(pick.price)}, ${days} days before departure.` };
+    return { tone: "book", word: "Book now", reason: `Google rates fares for this trip as low right now${rangeText}. ${pick.flightNumber} is ${money(pick.price)}, ${days} days before departure.` };
   }
   if (trail.length >= 6 && pick.price <= lowestSeen && days <= 75) {
     return { tone: "book", word: "Book now", reason: `${pick.flightNumber} is at the lowest price this tracker has recorded (${money(pick.price)}), with ${days} days to go.` };
@@ -393,153 +410,219 @@ function verdict(date, pick) {
   if (pi.priceLevel === "high" && days > 45) {
     return { tone: "hold", word: "Hold off", reason: `Google rates fares as high${rangeText}. With ${days} days to departure there is still room for them to fall.` };
   }
-  const level = pi.priceLevel ? `Fares are ${pi.priceLevel} for this date${rangeText}.` : "Not enough history yet to call a direction.";
+  const level = pi.priceLevel ? `Fares are ${pi.priceLevel} for this trip${rangeText}.` : `Google gives no price rating for this trip, and ${trail.length < 2 ? "this tracker has only just started recording it" : `this tracker has ${trail.length} checks so far, not enough to call a direction`}.`;
   return { tone: "watch", word: "Keep watching", reason: `${level} Nothing to act on yet; ${days} days to departure.` };
 }
 
 /* ---------- Render: summary ---------- */
+function flightLine(f) {
+  const l = leedsArrival(f);
+  return `${esc(f.flightNumber)} (${esc(airlineName(f.airlineCode, f.airline))}), ${money(f.price)}${l ? `, in Leeds about ${fmtTime(l)} ${fmtDay(l)}` : ""}`;
+}
+
 function renderSummary() {
   const c = cfg();
-  const focus = c.focusDate;
-  const pick = pickFor(focus);
+  const pick = overallPick();
   const v = $("verdict");
 
   if (!pick) {
     v.textContent = "No prices yet";
     v.dataset.tone = "watch";
-    $("reason").textContent = "The first automatic check hasn't saved any fares. Add your SerpApi key as a repository secret and run the workflow once; see the last section of this page for the run status.";
+    $("reason").textContent = "The first automatic check hasn't saved any fares. See the last section of this page for the run status.";
     $("points").innerHTML = "";
     $("pickCode").textContent = "–";
     return;
   }
 
-  const r = verdict(focus, pick);
+  const r = verdict(pick);
   v.textContent = r.word;
   v.dataset.tone = r.tone;
   $("reason").textContent = r.reason;
 
-  const all = flightsFor(focus);
-  const low = cheapest(all);
-  const pref = c.preferredAirline;
-  const prefName = airlineName(pref);
-  const prefAll = all.filter((f) => f.airlineCode === pref);
-  const prefOnDay = prefAll.filter((f) => arrivalDate(f) === c.arriveBy);
-  const bestPref = cheapest(prefOnDay.length ? prefOnDay : prefAll);
+  const prefName = codeName(c.preferredAirline);
+  const all = routeIds().flatMap((rid) => flightsFor(rid, rcfg(rid).focusDate));
+  const pool = pickPool(all);
+  const low = cheapest(pool);
+  const oneStop = cheapest(all.filter((f) => f.stops && onTargetDay(f)));
+  const bestPref = cheapest(pool.filter(isPref));
   const pts = [];
 
   pts.push({ material: true, html: `<strong>The live fare is the cheapest fare type.</strong> For Singapore Airlines that is usually Economy Lite, which can't change dates. Price Economy Value or above on singaporeair.com before you book if your return may move.` });
 
-  if (pick.airlineCode === pref && low && low.flightNumber !== pick.flightNumber) {
-    const gap = pick.price - low.price;
-    pts.push({ material: false, html: `<strong>${esc(pick.flightNumber)} costs ${money(gap)} more than the cheapest non-stop</strong> (${esc(low.flightNumber)}, ${esc(airlineName(low.airlineCode, low.airline))}, ${money(low.price)}). That is within your ${money(c.preferredAllowance)} allowance for ${esc(prefName)}.` });
-  } else if (pick.airlineCode !== pref && bestPref) {
-    const gap = bestPref.price - pick.price;
-    pts.push({ material: true, html: `<strong>${esc(prefName)} is ${money(gap)} more than ${esc(pick.flightNumber)}</strong>, beyond your ${money(c.preferredAllowance)} allowance, so ${esc(airlineName(pick.airlineCode, pick.airline))} is the pick. ${esc(bestPref.flightNumber)} is ${money(bestPref.price)}.` });
-  } else if (!bestPref) {
-    pts.push({ material: true, html: `<strong>No ${esc(prefName)} non-stop is on sale for this date in the latest check.</strong>` });
+  const night = nightOf(pick.depTime);
+  if (night) {
+    pts.push({ material: true, html: `<strong>${esc(pick.flightNumber)} leaves at ${fmtTime(parseLocal(pick.depTime))} on ${fmtDay(parseLocal(pick.depTime))}</strong>, which is the night of ${fmtDay(night)}. Be at Changi on ${fmtDay(night)} evening.` });
   }
 
-  const other = (c.departures || []).find((d) => d !== focus);
-  if (other && flightsFor(other).length) {
-    const oPick = pickFor(other) || cheapest(flightsFor(other));
-    const diff = oPick.price - pick.price;
-    const dir = diff > 0 ? `${money(diff)} more` : diff < 0 ? `${money(-diff)} less` : "the same";
-    pts.push({ material: false, html: `<strong>Leaving ${fmtDay(parseLocal(other))} instead</strong> costs ${dir} (${esc(oPick.flightNumber)}, ${money(oPick.price)}), and lands a day before you need to be in Leeds.` });
+  const ids = routeIds();
+  if (ids.length > 1) {
+    const bests = ids.map((rid) => [rid, routePick(rid)]).filter(([, f]) => f);
+    if (bests.length > 1) {
+      const lines = bests.map(([rid, f]) => `via ${esc(rcfg(rid).name)}: ${flightLine(f)}`).join("; ");
+      pts.push({ material: true, html: `<strong>Best option per airport</strong>, ${lines}.` });
+    }
+  }
+
+  if (isPref(pick) && low && low.flightNumber !== pick.flightNumber) {
+    pts.push({ material: false, html: `<strong>${esc(pick.flightNumber)} costs ${money(pick.price - low.price)} more than the cheapest option that day</strong> (${esc(low.flightNumber)} into ${esc(low.arrAirport)}, ${money(low.price)}). That is within your ${money(c.preferredAllowance)} allowance for ${esc(prefName)}.` });
+  } else if (!isPref(pick) && bestPref) {
+    pts.push({ material: true, html: `<strong>${esc(prefName)} is ${money(bestPref.price - pick.price)} more than ${esc(pick.flightNumber)}</strong>, beyond your ${money(c.preferredAllowance)} allowance, so ${esc(airlineName(pick.airlineCode, pick.airline))} is the pick. Best ${esc(prefName)} option: ${flightLine(bestPref)}.` });
+  } else if (!bestPref) {
+    pts.push({ material: true, html: `<strong>No ${esc(prefName)} flight landing on ${fmtDay(parseLocal(c.arriveBy))} is on sale in the latest check.</strong>` });
+  }
+
+  if (oneStop && oneStop.price < pick.price) {
+    pts.push({ material: false, html: `<strong>Cheapest with one stop: ${esc(oneStop.flightNumber.replace(/\+/g, " + "))}</strong> (${esc(airlineName(oneStop.airlineCode, oneStop.airline))}, ${stopsText(oneStop)}), ${money(oneStop.price)}, ${money(pick.price - oneStop.price)} less than the pick${leedsArrival(oneStop) ? ` but in Leeds about ${fmtTime(leedsArrival(oneStop))}` : ""}. Non-stop flights are preferred for the pick.` });
   }
 
   pts.push({ material: false, html: `<strong>Round-trip fares assume you return on ${fmtDay(parseLocal(c.returnDate))} ${parseLocal(c.returnDate).getUTCFullYear()}.</strong> Another return date will price differently.` });
 
   $("points").innerHTML = pts.map((p) => `<li class="${p.material ? "material" : ""}">${p.html}</li>`).join("");
-  $("ruleNote").textContent = `How the pick works: among ${fmtDay(parseLocal(focus))} flights that land on ${fmtDay(parseLocal(c.arriveBy))}, ${prefName} wins unless another airline is more than ${money(c.preferredAllowance)} cheaper. The verdict uses Google's price rating and this tracker's own history. It is a rule of thumb, not a forecast.`;
+  $("ruleNote").textContent = `How the pick works: across Heathrow and Manchester, among non-stop flights that land on ${fmtDay(parseLocal(c.arriveBy))}, ${prefName} wins unless another airline is more than ${money(c.preferredAllowance)} cheaper. The verdict uses Google's price rating and this tracker's own history. It is a rule of thumb, not a forecast.`;
 
-  $("pickCode").textContent = pick.flightNumber;
-  $("pickAirline").textContent = airlineName(pick.airlineCode, pick.airline) + (pick.aircraft ? `, ${pick.aircraft}` : "");
-  const arr = parseLocal(pick.arrTime);
-  const leeds = arr ? new Date(arr.getTime() + LEEDS_MINUTES * 60e3) : null;
+  $("pickLabel").textContent = `Recommended flight, into ${rcfg(pick.route).name}`;
+  const code = $("pickCode");
+  code.textContent = pick.flightNumber.replace(/\+/g, " + ");
+  code.classList.toggle("long", pick.flightNumber.length > 7);
+  $("pickAirline").textContent = airlineName(pick.airlineCode, pick.airline) + (pick.stops ? `, ${stopsText(pick)}` : pick.aircraft ? `, ${pick.aircraft}` : "");
+  const leeds = leedsArrival(pick);
   $("pickLegs").innerHTML = `
-    <dt>Leaves ${esc(pick.depAirport || "SIN")}</dt><dd>${fmtLocal(pick.depTime)}</dd>
-    <dt>Lands ${esc(pick.arrAirport || "LHR")}</dt><dd>${fmtLocal(pick.arrTime)}</dd>
+    <dt>Leaves ${esc(pick.depAirport || "SIN")}</dt><dd>${fmtLocal(pick.depTime)}${night ? `<span class="sub night">night of ${fmtDay(night)}</span>` : ""}</dd>
+    <dt>Lands ${esc(pick.arrAirport || "")}</dt><dd>${fmtLocal(pick.arrTime)}</dd>
     ${leeds ? `<dt>Leeds by</dt><dd>about ${fmtTime(leeds)}, ${fmtDay(leeds)}</dd>` : ""}`;
   $("pickFare").textContent = money(pick.price);
-  const d = delta(focus, pick.flightNumber);
+  const d = delta(pick.route, rcfg(pick.route).focusDate, pick.flightNumber);
   $("pickFareSub").innerHTML = d === null ? "First check with this return date" : `${deltaHtml(d)} since the previous check`;
 }
 
-/* ---------- Render: table ---------- */
+/* ---------- Render: route sections ---------- */
+function routeSectionHtml(rid) {
+  const rc = rcfg(rid);
+  const stopsLine = rc.maxStops ? `Non-stop and one-stop flights. Only ${codeName(cfg().preferredAirline)} flies this route non-stop.` : "Non-stop flights only.";
+  return `
+  <section class="block" id="route-${rid}" aria-labelledby="h-${rid}">
+    <div class="route-head">
+      <div>
+        <p class="route-code">SIN to ${esc(rc.destination)}</p>
+        <h2 id="h-${rid}">Singapore to ${esc(rc.name)}</h2>
+        <p class="lede" style="margin:0">${stopsLine} Flights that get you to Leeds on ${fmtDay(parseLocal(cfg().arriveBy))} come first, with ${codeName(cfg().preferredAirline)} weighted.</p>
+      </div>
+      <div class="seg" role="group" aria-label="Departure date for ${esc(rc.name)}" id="seg-${rid}"></div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Flight</th>
+            <th scope="col">Leaves Singapore</th>
+            <th scope="col">Lands ${esc(rc.destination)}</th>
+            <th scope="col">Leeds</th>
+            <th scope="col">Stops and aircraft</th>
+            <th scope="col" class="num">Round-trip fare</th>
+            <th scope="col" class="num">Since last check</th>
+          </tr>
+        </thead>
+        <tbody id="rows-${rid}"></tbody>
+      </table>
+    </div>
+    <p class="more" id="more-${rid}" hidden><button type="button"></button></p>
+    <p class="footnote">Leeds times are an estimate: ${esc(rc.leedsNote || "")} Times are local at each airport.</p>
+
+    <h3 class="sub-h">How ${esc(rc.name)} prices have moved</h3>
+    <p class="lede" id="trend-${rid}"></p>
+    <div class="chart-box">
+      <div class="chart-area" id="area-${rid}"><canvas id="chart-${rid}" role="img" aria-label="${esc(rc.name)} fare history chart"></canvas></div>
+      <p class="chart-empty" id="empty-${rid}" hidden>The chart fills in after a few automatic checks.</p>
+    </div>
+  </section>`;
+}
+
 function leedsCell(f) {
   const arr = parseLocal(f.arrTime);
   if (!arr) return "–";
-  const target = cfg().arriveBy;
-  const day = isoDate(arr);
+  const target = cfg().arriveBy, day = isoDate(arr);
   if (day < target) return `Day early<span class="sub">needs a UK night</span>`;
   if (day > target) return `<span style="color:var(--up)">Too late</span>`;
-  const l = new Date(arr.getTime() + LEEDS_MINUTES * 60e3);
-  return `<span class="when">about ${fmtTime(l)}</span><span class="sub">same day by rail</span>`;
+  const l = leedsArrival(f);
+  return l ? `<span class="when">about ${fmtTime(l)}</span><span class="sub">same day by rail</span>` : "–";
 }
 
-function renderTable() {
-  const date = STATE.date;
-  const rows = ranked(date);
-  const pick = pickFor(date);
-  const pref = cfg().preferredAirline;
+function renderRouteTable(rid) {
+  const date = STATE[rid];
+  const rows = ranked(rid, date);
+  const pick = overallPick();
+  const best = routePick(rid, date);
+  const body = $(`rows-${rid}`), more = $(`more-${rid}`);
   if (!rows.length) {
-    $("flightRows").innerHTML = `<tr class="empty-row"><td colspan="7">No fares saved for this date yet.</td></tr>`;
+    body.innerHTML = `<tr class="empty-row"><td colspan="7">No fares saved for this date yet.</td></tr>`;
+    more.hidden = true;
     return;
   }
-  $("flightRows").innerHTML = rows.map((f) => {
-    const dep = parseLocal(f.depTime), arr = parseLocal(f.arrTime);
-    const isPick = pick && f.flightNumber === pick.flightNumber;
-    const cls = [f.airlineCode === pref ? "preferred" : "", isPick ? "is-pick" : ""].join(" ").trim();
+  const shown = SHOW_ALL[rid] ? rows : rows.slice(0, TABLE_ROWS);
+  body.innerHTML = shown.map((f) => {
+    const dep = parseLocal(f.depTime), arr = parseLocal(f.arrTime), night = nightOf(f.depTime);
+    const isPick = pick && pick.route === rid && f.flightNumber === pick.flightNumber && date === rcfg(rid).focusDate;
+    const isBest = !isPick && best && f.flightNumber === best.flightNumber;
+    const cls = [isPref(f) ? "preferred" : "", isPick ? "is-pick" : ""].join(" ").trim();
+    const tag = isPick ? '<span class="tag pick">Pick</span>' : isBest ? '<span class="tag best">Best here</span>' : isPref(f) ? '<span class="tag pref">Preferred</span>' : "";
     return `<tr class="${cls}">
-      <td><span class="fn">${esc(f.flightNumber)}${isPick ? '<span class="tag pick">Pick</span>' : ""}${f.airlineCode === pref && !isPick ? '<span class="tag pref">Preferred</span>' : ""}</span><span class="al">${esc(airlineName(f.airlineCode, f.airline))}</span></td>
-      <td><span class="when">${dep ? fmtTime(dep) : "–"}</span><span class="sub">${dep ? fmtDay(dep) : ""}, ${esc(f.depAirport || "")}</span></td>
+      <td><span class="fn">${esc(f.flightNumber.replace(/\+/g, " + "))}${tag}</span><span class="al">${esc(airlineName(f.airlineCode, f.airline))}</span></td>
+      <td><span class="when">${dep ? fmtTime(dep) : "–"}</span><span class="sub">${dep ? fmtDay(dep) : ""}, ${esc(f.depAirport || "")}</span>${night ? `<span class="sub night">night of ${fmtDay(night)}</span>` : ""}</td>
       <td><span class="when">${arr ? fmtTime(arr) : "–"}</span><span class="sub">${arr ? fmtDay(arr) : ""}, ${esc(f.arrAirport || "")}</span></td>
       <td>${leedsCell(f)}</td>
-      <td>${esc(f.aircraft || "–")}<span class="sub">${fmtDuration(f.durationMin)}</span></td>
+      <td>${stopsText(f)}<span class="sub">${esc(f.aircraft || "")}${f.durationMin ? `${f.aircraft ? ", " : ""}${fmtDuration(f.durationMin)}` : ""}</span></td>
       <td class="num"><span class="price">${money(f.price)}</span></td>
-      <td class="num">${deltaHtml(delta(date, f.flightNumber))}</td>
+      <td class="num">${deltaHtml(delta(rid, date, f.flightNumber))}</td>
     </tr>`;
   }).join("");
+  more.hidden = rows.length <= TABLE_ROWS;
+  const btn = more.querySelector("button");
+  btn.textContent = SHOW_ALL[rid] ? `Show the top ${TABLE_ROWS}` : `Show all ${rows.length} options`;
+  btn.onclick = () => { SHOW_ALL[rid] = !SHOW_ALL[rid]; renderRouteTable(rid); };
 }
 
-/* ---------- Render: chart ---------- */
 function cssVar(n) { return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
 
-function renderChart() {
-  const date = STATE.date;
-  $("trendDate").textContent = fmtDay(parseLocal(date)) + " departures";
-  const hist = historyFor(date);
-  const latest = (DATA.latest || {})[date] || {};
-  const google = ((latest.priceInsights || {}).history || []).map(([t, p]) => ({ x: t * 1000, y: p }));
-  const meta = {};
-  flightsFor(date).forEach((f) => { meta[f.flightNumber] = f.airlineCode; });
-  hist.forEach((h) => Object.keys(h.p).forEach((fn) => { if (!meta[fn]) meta[fn] = fn.slice(0, 2); }));
-  const codes = [...new Set(Object.values(meta))];
+function renderRouteChart(rid) {
+  const date = STATE[rid];
+  const rc = rcfg(rid);
+  $(`trend-${rid}`).textContent = `Cheapest round-trip fare per airline at each check, for ${fmtDay(parseLocal(date))} departures returning ${fmtDay(parseLocal(cfg().returnDate))}. The dashed line is Google's own record of the cheapest fare on this search.`;
+  const hist = historyFor(rid, date);
+  const google = ((latestFor(rid, date).priceInsights || {}).history || []).map(([t, p]) => ({ x: t * 1000, y: p }));
   const pref = cfg().preferredAirline;
-  codes.sort((a, b) => (a === pref ? -1 : b === pref ? 1 : a.localeCompare(b)));
 
-  const colorFor = (c) => cssVar({ SQ: "--sq", BA: "--ba", QF: "--qf" }[c] || "--other");
-  const sets = codes.map((code) => ({
-    label: airlineName(code),
-    data: hist.map((h) => {
-      const vals = Object.entries(h.p).filter(([fn]) => meta[fn] === code).map(([, p]) => p);
-      return vals.length ? { x: new Date(h.t).getTime(), y: Math.min(...vals) } : null;
-    }).filter(Boolean),
-    borderColor: colorFor(code), backgroundColor: colorFor(code),
-    borderWidth: code === pref ? 3.5 : 2, pointRadius: code === pref ? 3 : 2, tension: 0.2,
-  }));
+  const codeOf = (fn) => fn.slice(0, 2);
+  const latest = flightsFor(rid, date);
+  const order = [...new Set(latest.sort((a, b) => a.price - b.price).map((f) => f.airlineCode))];
+  hist.forEach((h) => Object.keys(h.p).forEach((fn) => { if (!order.includes(codeOf(fn))) order.push(codeOf(fn)); }));
+  let codes = order.filter((c) => c !== pref).slice(0, 4);
+  if (order.includes(pref)) codes = [pref, ...codes];
+
+  const palette = ["--c1", "--c2", "--c3", "--c4"];
+  const sets = codes.map((code, i) => {
+    const color = cssVar(code === pref ? "--sq" : palette[(code === pref ? 0 : i - (codes[0] === pref ? 1 : 0)) % palette.length]);
+    return {
+      label: codeName(code),
+      data: hist.map((h) => {
+        const vals = Object.entries(h.p).filter(([fn]) => codeOf(fn) === code).map(([, p]) => p);
+        return vals.length ? { x: new Date(h.t).getTime(), y: Math.min(...vals) } : null;
+      }).filter(Boolean),
+      borderColor: color, backgroundColor: color,
+      borderWidth: code === pref ? 3.5 : 2, pointRadius: code === pref ? 3 : 2, tension: 0.2,
+    };
+  });
   if (google.length) {
-    sets.push({ label: "Cheapest on route (Google)", data: google, borderColor: cssVar("--google"), backgroundColor: cssVar("--google"), borderDash: [5, 5], borderWidth: 1.5, pointRadius: 0, tension: 0.2 });
+    sets.push({ label: "Cheapest on this search (Google)", data: google, borderColor: cssVar("--google"), backgroundColor: cssVar("--google"), borderDash: [5, 5], borderWidth: 1.5, pointRadius: 0, tension: 0.2 });
   }
 
   const hasData = sets.some((s) => s.data.length);
-  $("chartEmpty").hidden = hasData;
-  document.querySelector(".chart-area").style.display = hasData ? "" : "none";
-  if (chart) chart.destroy();
+  $(`empty-${rid}`).hidden = hasData;
+  $(`area-${rid}`).style.display = hasData ? "" : "none";
+  if (charts[rid]) charts[rid].destroy();
   if (!hasData || !window.Chart) return;
 
   const ink = cssVar("--muted"), grid = cssVar("--rule");
-  chart = new Chart($("trendChart"), {
+  charts[rid] = new Chart($(`chart-${rid}`), {
     type: "line",
     data: { datasets: sets },
     options: {
@@ -557,21 +640,44 @@ function renderChart() {
   });
 }
 
+function renderSeg(rid) {
+  const rc = rcfg(rid);
+  const dates = [...(rc.departures || [])].sort((a, b) => (a === rc.focusDate ? -1 : b === rc.focusDate ? 1 : a.localeCompare(b)));
+  const seg = $(`seg-${rid}`);
+  seg.innerHTML = dates.map((d) => `<button type="button" data-date="${d}" aria-pressed="${d === STATE[rid]}">${fmtDay(parseLocal(d))}</button>`).join("");
+  seg.hidden = dates.length < 2;
+  seg.querySelectorAll("button").forEach((b) => b.addEventListener("click", () => {
+    STATE[rid] = b.dataset.date; SHOW_ALL[rid] = false;
+    renderSeg(rid); renderRouteTable(rid); renderRouteChart(rid);
+  }));
+}
+
+function renderRoutes() {
+  const ids = routeIds();
+  $("routeSections").innerHTML = ids.map(routeSectionHtml).join("");
+  $("jump").innerHTML = ids.map((rid) => `<a href="#route-${rid}">${esc(rcfg(rid).name)}</a>`).join("");
+  ids.forEach((rid) => {
+    if (!STATE[rid]) STATE[rid] = rcfg(rid).focusDate || (rcfg(rid).departures || [])[0];
+    renderSeg(rid); renderRouteTable(rid); renderRouteChart(rid);
+  });
+}
+
 /* ---------- Render: provenance ---------- */
 function renderSource() {
   const c = cfg(), run = DATA.lastRun || {}, use = DATA.usage || {};
   const statusText = { ok: "Succeeded", partial: "Partly failed", error: "Failed", never: "Not run yet" }[run.status] || run.status || "–";
   const statusCls = run.status === "ok" ? "status-ok" : "status-bad";
-  const links = (c.departures || []).map((d) => {
-    const l = (DATA.latest || {})[d];
-    return l && l.googleFlightsUrl
-      ? `<a href="${esc(l.googleFlightsUrl)}" target="_blank" rel="noopener noreferrer">${fmtDay(parseLocal(d))} search on Google Flights</a> (fetched ${fmtStamp(l.fetchedAt)}, search id ${esc(l.searchId || "–")})`
-      : `${fmtDay(parseLocal(d))}: no successful search yet`;
-  }).join("<br>");
+  const links = routeIds().flatMap((rid) => (rcfg(rid).departures || []).map((d) => {
+    const l = latestFor(rid, d);
+    const label = `${rcfg(rid).destination}, ${fmtDay(parseLocal(d))}`;
+    return l.googleFlightsUrl
+      ? `<a href="${esc(l.googleFlightsUrl)}" target="_blank" rel="noopener noreferrer">${label} search on Google Flights</a> (fetched ${fmtStamp(l.fetchedAt)}${l.returnDate && l.returnDate !== c.returnDate ? `, returning ${fmtDay(parseLocal(l.returnDate))}` : ""})`
+      : `${label}: no successful search yet`;
+  })).join("<br>");
   $("sourceList").innerHTML = `
     <dt>Source</dt><dd>${esc(DATA.source || "Google Flights via SerpApi")}</dd>
-    <dt>Search</dt><dd>${esc(c.origin)} to ${esc(c.destination)}, ${esc((c.stops || "").toLowerCase())}, ${esc((c.cabin || "").toLowerCase())}, ${c.adults || 1} adult, ${esc((c.tripType || "").toLowerCase())} returning ${c.returnDate ? fmtDay(parseLocal(c.returnDate)) : "–"}, prices in ${esc(c.currency)}</dd>
-    <dt>Schedule</dt><dd>Three checks a day, around 09:00, 17:00 and 01:00 SGT</dd>
+    <dt>Search</dt><dd>${esc(c.origin || "SIN")} to London Heathrow (non-stop) and Manchester (up to one stop), economy, ${c.adults || 1} adult, round trip returning ${c.returnDate ? fmtDay(parseLocal(c.returnDate)) + " " + parseLocal(c.returnDate).getUTCFullYear() : "–"}, prices in ${esc(c.currency || "SGD")}</dd>
+    <dt>Schedule</dt><dd>Two checks a day, around 09:00 and 21:00 SGT</dd>
     <dt>Last check</dt><dd><span class="${statusCls}">${statusText}</span>${run.at ? `, ${fmtStamp(run.at)}` : ""}${run.message ? `<span class="sub">${esc(run.message)}</span>` : ""}</dd>
     <dt>Searches this month</dt><dd>${use.searches ?? 0} used (free plan allows 250)</dd>
     <dt>Check a number</dt><dd>${links}</dd>
@@ -580,8 +686,8 @@ function renderSource() {
 
 /* ---------- Header and notices ---------- */
 function renderHeader() {
-  const c = cfg(), run = DATA.lastRun || {};
-  const fetched = Object.values(DATA.latest || {}).map((l) => l.fetchedAt).sort().pop();
+  const run = DATA.lastRun || {};
+  const fetched = routeIds().flatMap((rid) => Object.values((DATA.routes[rid] || {}).latest || {}).map((l) => l.fetchedAt)).sort().pop();
   $("checked").textContent = fetched ? `Prices checked ${fmtStamp(fetched)}` : "No prices saved yet";
   const notes = [];
   if (run.status === "error" || run.status === "partial") notes.push(`The last automatic check ${run.status === "error" ? "failed" : "partly failed"}: ${String(run.message || "").replace(/\.+$/, "")}. Prices shown are from the last successful check.`);
@@ -590,25 +696,14 @@ function renderHeader() {
   $("notice").textContent = notes.join(" ");
 }
 
-function renderDateSeg() {
-  const c = cfg();
-  const dates = [...(c.departures || [])].sort((a, b) => (a === c.focusDate ? -1 : b === c.focusDate ? 1 : a.localeCompare(b)));
-  $("dateSeg").innerHTML = dates.map((d) => `<button type="button" data-date="${d}" aria-pressed="${d === STATE.date}">${fmtDay(parseLocal(d))}</button>`).join("");
-  $("dateSeg").querySelectorAll("button").forEach((b) => b.addEventListener("click", () => {
-    STATE.date = b.dataset.date;
-    renderDateSeg(); renderTable(); renderChart();
-  }));
-}
-
 function renderAll() {
-  renderHeader(); renderSummary(); renderDateSeg(); renderTable(); renderChart(); renderSource();
+  renderHeader(); renderSummary(); renderRoutes(); renderSource();
 }
 
 load().then((d) => {
-  DATA = d;
-  STATE.date = cfg().focusDate || (cfg().departures || [])[0];
+  DATA = normalise(d);
   renderAll();
-  matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", renderChart);
+  matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", () => routeIds().forEach(renderRouteChart));
 }).catch((e) => {
   $("checked").textContent = "Couldn't load prices";
   $("verdict").textContent = "No data";
