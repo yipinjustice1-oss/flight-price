@@ -83,8 +83,10 @@ ROUTES = [
         "departures": _man,
         "focusDate": os.environ.get("MAN_FOCUS_DATE", last_date(_man)),
         "maxStops": int(os.environ.get("MAN_MAX_STOPS", "1")),
-        # Quick mixed searches can omit SQ302's price; deep search matches Google Flights in a browser.
+        # Deep search matches what Google Flights shows in a browser.
         "deepSearch": True,
+        # The one-stop comparison runs once a day (09:00 SGT check) to stay inside the free plan.
+        "mixedDaily": True,
         "leedsMinutes": 160,
         "leedsNote": "60 min for immigration and bags, then the direct TransPennine train from Manchester Airport to Leeds (about 2 h 40 min in total).",
     },
@@ -273,32 +275,40 @@ def main():
             if usage["searches"] >= MONTHLY_BUDGET:
                 errors.append(f"{label}: skipped, monthly search budget of {MONTHLY_BUDGET} reached")
                 continue
+            prev = store["latest"].get(date) or {}
             try:
-                payload = search(route, date, api_key)
-                usage["searches"] += 1
-                flights = parse_flights(payload, route["maxStops"], CONFIG["preferredAirline"])
+                if route["maxStops"] == 0:
+                    payload = search(route, date, api_key)
+                    usage["searches"] += 1
+                    flights = parse_flights(payload, 0, CONFIG["preferredAirline"])
+                    mixed_meta = None
+                else:
+                    # Non-stop prices come from a non-stop-only search: Google's mixed view can
+                    # show a different (higher) fare for the same non-stop flight.
+                    payload = search(route, date, api_key, nonstop_only=True)
+                    usage["searches"] += 1
+                    nonstop_at = now_sgt().isoformat()
+                    flights = [dict(f, fetchedAt=nonstop_at) for f in parse_flights(payload, 0, CONFIG["preferredAirline"])]
+                    one_stop, mixed_meta = [], None
+                    mixed_today = (prev.get("mixedFetchedAt") or "")[:10] == started.date().isoformat()
+                    if (started.hour < 12 or not mixed_today) and usage["searches"] < MONTHLY_BUDGET:
+                        try:
+                            mixed = search(route, date, api_key)
+                            usage["searches"] += 1
+                            mixed_at = now_sgt().isoformat()
+                            one_stop = [dict(f, fetchedAt=mixed_at) for f in parse_flights(mixed, route["maxStops"], CONFIG["preferredAirline"]) if f["stops"] > 0]
+                            mixed_meta = {"id": (mixed.get("search_metadata") or {}).get("id"), "url": (mixed.get("search_metadata") or {}).get("google_flights_url"), "at": mixed_at}
+                        except Exception as e:  # noqa: BLE001
+                            notes.append(f"{label}: one-stop check failed ({e})")
+                    if mixed_meta is None:
+                        # Keep the one-stop prices from today's earlier check; each row keeps its own fetch time.
+                        one_stop = [f for f in prev.get("flights", []) if f.get("stops") and f.get("returnDate", CONFIG["returnDate"]) == CONFIG["returnDate"] and prev.get("returnDate") == CONFIG["returnDate"]]
+                    flights = sorted(flights + one_stop, key=lambda r: r["price"])
                 if not flights:
                     raise RuntimeError("search succeeded but returned no priced flights")
             except Exception as e:  # noqa: BLE001 - record any failure, never invent data
                 errors.append(f"{label}: {e}")
                 continue
-
-            # A mixed search can leave out non-stop flights; if so, ask for non-stop only once.
-            extra = None
-            if route["maxStops"] > 0 and not any(f["stops"] == 0 for f in flights):
-                if usage["searches"] >= MONTHLY_BUDGET:
-                    notes.append(f"{label}: non-stop check skipped, monthly budget reached")
-                else:
-                    try:
-                        extra = search(route, date, api_key, nonstop_only=True)
-                        usage["searches"] += 1
-                        merged = {f["flightNumber"]: f for f in flights}
-                        for f in parse_flights(extra, 0, CONFIG["preferredAirline"]):
-                            if f["flightNumber"] not in merged or f["price"] < merged[f["flightNumber"]]["price"]:
-                                merged[f["flightNumber"]] = f
-                        flights = sorted(merged.values(), key=lambda r: r["price"])
-                    except Exception as e:  # noqa: BLE001
-                        notes.append(f"{label}: non-stop check failed ({e})")
 
             meta = payload.get("search_metadata") or {}
             previous_id = (store["latest"].get(date) or {}).get("searchId")
@@ -307,7 +317,9 @@ def main():
                 "fetchedAt": fetched_at,
                 "searchId": meta.get("id"),
                 "googleFlightsUrl": meta.get("google_flights_url"),
-                "nonstopSearchId": ((extra or {}).get("search_metadata") or {}).get("id"),
+                "mixedSearchId": (mixed_meta or {}).get("id") or prev.get("mixedSearchId"),
+                "mixedGoogleFlightsUrl": (mixed_meta or {}).get("url") or prev.get("mixedGoogleFlightsUrl"),
+                "mixedFetchedAt": (mixed_meta or {}).get("at") or prev.get("mixedFetchedAt"),
                 "returnDate": CONFIG["returnDate"],
                 "priceInsights": parse_insights(payload),
                 "flights": flights,
@@ -321,7 +333,7 @@ def main():
                     "d": date,
                     "r": CONFIG["returnDate"],
                     "id": meta.get("id"),
-                    "p": {f["flightNumber"]: f["price"] for f in flights},
+                    "p": {f["flightNumber"]: f["price"] for f in flights if f.get("fetchedAt", fetched_at) >= started.isoformat()},
                 })
             fetched.append(label)
             cheapest = flights[0]
