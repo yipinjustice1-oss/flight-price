@@ -83,6 +83,8 @@ ROUTES = [
         "departures": _man,
         "focusDate": os.environ.get("MAN_FOCUS_DATE", last_date(_man)),
         "maxStops": int(os.environ.get("MAN_MAX_STOPS", "1")),
+        # Quick mixed searches can omit SQ302's price; deep search matches Google Flights in a browser.
+        "deepSearch": True,
         "leedsMinutes": 160,
         "leedsNote": "60 min for immigration and bags, then the direct TransPennine train from Manchester Airport to Leeds (about 2 h 40 min in total).",
     },
@@ -143,7 +145,8 @@ def save_data(data):
     tmp.replace(DATA_FILE)
 
 
-def search(route, date, api_key):
+def search(route, date, api_key, nonstop_only=False):
+    max_stops = 0 if nonstop_only else route["maxStops"]
     params = {
         "engine": "google_flights",
         "departure_id": CONFIG["origin"],
@@ -152,13 +155,15 @@ def search(route, date, api_key):
         "return_date": CONFIG["returnDate"],
         "type": "1",          # round trip
         "travel_class": "1",  # economy
-        "stops": "1" if route["maxStops"] == 0 else "2",  # 1 = non-stop, 2 = up to one stop
+        "stops": "1" if max_stops == 0 else "2",  # 1 = non-stop, 2 = up to one stop
         "adults": "1",
         "currency": CONFIG["currency"],
         "gl": "sg",
         "hl": "en",
         "api_key": api_key,
     }
+    if route.get("deepSearch"):
+        params["deep_search"] = "true"
     url = API_URL + "?" + urllib.parse.urlencode(params)
     req = urllib.request.Request(url, headers={"User-Agent": "flight-price-tracker/3.0"})
     try:
@@ -259,7 +264,7 @@ def main():
         print("::error::SERPAPI_KEY is not set; no prices fetched.")
         return 1
 
-    errors, fetched = [], []
+    errors, fetched, notes = [], [], []
     for route in ROUTES:
         store = data["routes"].setdefault(route["id"], {"latest": {}})
         store.setdefault("latest", {})
@@ -278,6 +283,23 @@ def main():
                 errors.append(f"{label}: {e}")
                 continue
 
+            # A mixed search can leave out non-stop flights; if so, ask for non-stop only once.
+            extra = None
+            if route["maxStops"] > 0 and not any(f["stops"] == 0 for f in flights):
+                if usage["searches"] >= MONTHLY_BUDGET:
+                    notes.append(f"{label}: non-stop check skipped, monthly budget reached")
+                else:
+                    try:
+                        extra = search(route, date, api_key, nonstop_only=True)
+                        usage["searches"] += 1
+                        merged = {f["flightNumber"]: f for f in flights}
+                        for f in parse_flights(extra, 0, CONFIG["preferredAirline"]):
+                            if f["flightNumber"] not in merged or f["price"] < merged[f["flightNumber"]]["price"]:
+                                merged[f["flightNumber"]] = f
+                        flights = sorted(merged.values(), key=lambda r: r["price"])
+                    except Exception as e:  # noqa: BLE001
+                        notes.append(f"{label}: non-stop check failed ({e})")
+
             meta = payload.get("search_metadata") or {}
             previous_id = (store["latest"].get(date) or {}).get("searchId")
             fetched_at = now_sgt().isoformat()
@@ -285,6 +307,7 @@ def main():
                 "fetchedAt": fetched_at,
                 "searchId": meta.get("id"),
                 "googleFlightsUrl": meta.get("google_flights_url"),
+                "nonstopSearchId": ((extra or {}).get("search_metadata") or {}).get("id"),
                 "returnDate": CONFIG["returnDate"],
                 "priceInsights": parse_insights(payload),
                 "flights": flights,
@@ -308,7 +331,7 @@ def main():
     data["lastRun"] = {
         "at": started.isoformat(),
         "status": status,
-        "message": "; ".join(errors) if errors else f"Checked {', '.join(fetched)}",
+        "message": "; ".join(errors + notes) if errors else "; ".join([f"Checked {', '.join(fetched)}"] + notes),
     }
     save_data(data)
     for err in errors:
