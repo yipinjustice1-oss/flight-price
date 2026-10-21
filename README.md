@@ -22,7 +22,8 @@ Live economy round-trip fares from Singapore (SIN) to the UK, aimed at being in 
 ## Setup (about 10 minutes)
 
 1. **Get a SerpApi key.** Sign up at serpapi.com. The free plan gives 250 searches a month;
-   this tracker uses about 186 (2 checks × 3 searches × 31 days).
+   this tracker uses about 217: each check runs Heathrow × 2 dates and a Manchester non-stop
+   search, and the 09:00 check also runs the Manchester one-stop comparison (7 a day × 31 days).
 2. **Upload these files** to the root of `yipinjustice1-oss/flight-price`.
    If an older `.github/workflows/daily-flight-tracker.yml` is there, delete it.
 3. **Add the key as a secret.** Repo → Settings → Secrets and variables → Actions →
@@ -50,7 +51,7 @@ Edit the `env:` block in `.github/workflows/track-prices.yml`:
 | `PREFERRED_AIRLINE` | `SQ` | Airline given extra weight |
 | `PREFERRED_ALLOWANCE` | `150` | S$ it may cost above the cheapest and still be picked |
 
-Each extra date adds about 62 searches a month at 2 checks a day. The script stops searching
+Each extra Heathrow date adds about 62 searches a month; an extra Manchester date adds about 93. The script stops searching
 once 230 searches are used in a month, so it never runs past the free plan.
 
 ## What it can't do
