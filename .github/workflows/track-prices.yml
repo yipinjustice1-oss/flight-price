@@ -3,8 +3,8 @@ name: Track SIN-UK fares
 on:
   schedule:
     # 01:00 and 13:00 UTC = 09:00 and 21:00 SGT.
-    # Each run: Heathrow x 2 dates + Manchester x 1 date = 3 searches.
-    # 2 runs a day x 3 = ~186 searches a month (SerpApi free plan: 250).
+    # Each run: Heathrow x 2 dates + Manchester non-stop = 3 searches; the 09:00 run also
+    # does the Manchester one-stop comparison. ~7 a day = ~217 a month (SerpApi free plan: 250).
     - cron: '0 1,13 * * *'
   workflow_dispatch:
 
