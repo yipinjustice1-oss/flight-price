@@ -13,20 +13,20 @@
   "tripType": "Round trip"
  },
  "lastRun": {
-  "at": "2026-10-22T13:42:45+08:00",
+  "at": "2026-10-23T01:50:21+08:00",
   "status": "ok",
   "message": "Checked LHR 2027-01-16, LHR 2027-01-17, MAN 2027-01-18"
  },
  "usage": {
   "month": "2026-10",
-  "searches": 25
+  "searches": 29
  },
  "routes": {
   "LHR": {
    "latest": {
     "2027-01-16": {
-     "fetchedAt": "2026-10-22T13:42:55+08:00",
-     "searchId": "6ad9a2552ed12329ee75777b",
+     "fetchedAt": "2026-10-23T01:50:30+08:00",
+     "searchId": "6ada4cde7d123341ddbb872f",
      "googleFlightsUrl": "https://www.google.com/travel/flights?hl=en&gl=sg&curr=SGD&tfs=CBwQAhogEgoyMDI3LTAxLTE2KABqBwgBEgNTSU5yBwgBEgNMSFIaIBIKMjAyNy0wNi0wNSgAagcIARIDTEhScgcIARIDU0lOQAFIAXABmAEB&tfu=EgIIAQ",
      "mixedSearchId": null,
      "mixedGoogleFlightsUrl": null,
@@ -51,7 +51,7 @@
        "aircraft": "Airbus A380",
        "stops": 0,
        "layovers": [],
-       "price": 1368
+       "price": 1366
       },
       {
        "flightNumber": "SQ318",
@@ -79,7 +79,7 @@
        "aircraft": "Boeing 777",
        "stops": 0,
        "layovers": [],
-       "price": 1574
+       "price": 1513
       },
       {
        "flightNumber": "BA12",
@@ -93,7 +93,7 @@
        "aircraft": "Airbus A380",
        "stops": 0,
        "layovers": [],
-       "price": 1574
+       "price": 1513
       },
       {
        "flightNumber": "SQ322",
@@ -107,7 +107,7 @@
        "aircraft": "Airbus A380",
        "stops": 0,
        "layovers": [],
-       "price": 1767
+       "price": 1765
       },
       {
        "flightNumber": "QF1",
@@ -135,7 +135,7 @@
        "aircraft": "Airbus A350",
        "stops": 0,
        "layovers": [],
-       "price": 1985
+       "price": 1982
       },
       {
        "flightNumber": "QF219",
@@ -154,8 +154,8 @@
      ]
     },
     "2027-01-17": {
-     "fetchedAt": "2026-10-22T13:42:59+08:00",
-     "searchId": "6ad9a25ff479a30c3865a2f8",
+     "fetchedAt": "2026-10-23T01:50:34+08:00",
+     "searchId": "6ada4ce64f56b9e85727b8b8",
      "googleFlightsUrl": "https://www.google.com/travel/flights?hl=en&gl=sg&curr=SGD&tfs=CBwQAhogEgoyMDI3LTAxLTE3KABqBwgBEgNTSU5yBwgBEgNMSFIaIBIKMjAyNy0wNi0wNSgAagcIARIDTEhScgcIARIDU0lOQAFIAXABmAEB&tfu=EgIIAQ",
      "mixedSearchId": null,
      "mixedGoogleFlightsUrl": null,
@@ -169,6 +169,20 @@
      },
      "flights": [
       {
+       "flightNumber": "BA12",
+       "airlineCode": "BA",
+       "airline": "British Airways",
+       "depAirport": "SIN",
+       "depTime": "2027-01-17 23:15",
+       "arrAirport": "LHR",
+       "arrTime": "2027-01-18 05:45",
+       "durationMin": 870,
+       "aircraft": "Airbus A380",
+       "stops": 0,
+       "layovers": [],
+       "price": 1248
+      },
+      {
        "flightNumber": "SQ308",
        "airlineCode": "SQ",
        "airline": "Singapore Airlines",
@@ -180,7 +194,7 @@
        "aircraft": "Airbus A380",
        "stops": 0,
        "layovers": [],
-       "price": 1285
+       "price": 1279
       },
       {
        "flightNumber": "SQ318",
@@ -194,35 +208,7 @@
        "aircraft": "Boeing 777",
        "stops": 0,
        "layovers": [],
-       "price": 1285
-      },
-      {
-       "flightNumber": "QF1",
-       "airlineCode": "QF",
-       "airline": "Qantas",
-       "depAirport": "SIN",
-       "depTime": "2027-01-17 23:35",
-       "arrAirport": "LHR",
-       "arrTime": "2027-01-18 06:15",
-       "durationMin": 880,
-       "aircraft": "Airbus A380",
-       "stops": 0,
-       "layovers": [],
-       "price": 1326
-      },
-      {
-       "flightNumber": "BA12",
-       "airlineCode": "BA",
-       "airline": "British Airways",
-       "depAirport": "SIN",
-       "depTime": "2027-01-17 23:15",
-       "arrAirport": "LHR",
-       "arrTime": "2027-01-18 05:45",
-       "durationMin": 870,
-       "aircraft": "Airbus A380",
-       "stops": 0,
-       "layovers": [],
-       "price": 1371
+       "price": 1279
       },
       {
        "flightNumber": "BA16",
@@ -236,7 +222,7 @@
        "aircraft": "Boeing 777",
        "stops": 0,
        "layovers": [],
-       "price": 1574
+       "price": 1513
       },
       {
        "flightNumber": "SQ322",
@@ -253,20 +239,6 @@
        "price": 1608
       },
       {
-       "flightNumber": "QF219",
-       "airlineCode": "QF",
-       "airline": "Qantas",
-       "depAirport": "SIN",
-       "depTime": "2027-01-17 23:10",
-       "arrAirport": "LHR",
-       "arrTime": "2027-01-18 05:30",
-       "durationMin": 860,
-       "aircraft": "Boeing 787",
-       "stops": 0,
-       "layovers": [],
-       "price": 1634
-      },
-      {
        "flightNumber": "SQ306",
        "airlineCode": "SQ",
        "airline": "Singapore Airlines",
@@ -279,6 +251,34 @@
        "stops": 0,
        "layovers": [],
        "price": 1765
+      },
+      {
+       "flightNumber": "QF219",
+       "airlineCode": "QF",
+       "airline": "Qantas",
+       "depAirport": "SIN",
+       "depTime": "2027-01-17 23:10",
+       "arrAirport": "LHR",
+       "arrTime": "2027-01-18 05:30",
+       "durationMin": 860,
+       "aircraft": "Boeing 787",
+       "stops": 0,
+       "layovers": [],
+       "price": 1943
+      },
+      {
+       "flightNumber": "QF1",
+       "airlineCode": "QF",
+       "airline": "Qantas",
+       "depAirport": "SIN",
+       "depTime": "2027-01-17 23:35",
+       "arrAirport": "LHR",
+       "arrTime": "2027-01-18 06:15",
+       "durationMin": 880,
+       "aircraft": "Airbus A380",
+       "stops": 0,
+       "layovers": [],
+       "price": 1943
       }
      ]
     }
@@ -300,12 +300,12 @@
   "MAN": {
    "latest": {
     "2027-01-18": {
-     "fetchedAt": "2026-10-22T13:43:03+08:00",
-     "searchId": "6ad9a263afaa6711dcb71e15",
+     "fetchedAt": "2026-10-23T01:50:41+08:00",
+     "searchId": "6ada4cea1ea4e93b25794f73",
      "googleFlightsUrl": "https://www.google.com/travel/flights?hl=en&gl=sg&curr=SGD&tfs=CBwQAhogEgoyMDI3LTAxLTE4KABqBwgBEgNTSU5yBwgBEgNNQU4aIBIKMjAyNy0wNi0wNSgAagcIARIDTUFOcgcIARIDU0lOQAFIAXABmAEB&tfu=EgIIAQ",
-     "mixedSearchId": "6ad8fbd04bd85773e1fe23a9",
+     "mixedSearchId": "6ada4ced131811ca84ebc6bd",
      "mixedGoogleFlightsUrl": "https://www.google.com/travel/flights?hl=en&gl=sg&curr=SGD&tfs=CBwQAhogEgoyMDI3LTAxLTE4KAFqBwgBEgNTSU5yBwgBEgNNQU4aIBIKMjAyNy0wNi0wNSgBagcIARIDTUFOcgcIARIDU0lOQAFIAXABmAEB&tfu=EgIIAQ",
-     "mixedFetchedAt": "2026-10-22T01:52:19+08:00",
+     "mixedFetchedAt": "2026-10-23T01:50:41+08:00",
      "returnDate": "2027-06-05",
      "priceInsights": {
       "lowestPrice": null,
@@ -331,8 +331,8 @@
          "durationMin": 1605
         }
        ],
-       "price": 1032,
-       "fetchedAt": "2026-10-22T01:52:19+08:00"
+       "price": 1033,
+       "fetchedAt": "2026-10-23T01:50:41+08:00"
       },
       {
        "flightNumber": "EK349+EK17",
@@ -352,7 +352,7 @@
         }
        ],
        "price": 1117,
-       "fetchedAt": "2026-10-22T01:52:19+08:00"
+       "fetchedAt": "2026-10-23T01:50:41+08:00"
       },
       {
        "flightNumber": "EK355+EK21",
@@ -372,7 +372,7 @@
         }
        ],
        "price": 1117,
-       "fetchedAt": "2026-10-22T01:52:19+08:00"
+       "fetchedAt": "2026-10-23T01:50:41+08:00"
       },
       {
        "flightNumber": "LX177+LX390",
@@ -392,7 +392,7 @@
         }
        ],
        "price": 1119,
-       "fetchedAt": "2026-10-22T01:52:19+08:00"
+       "fetchedAt": "2026-10-23T01:50:41+08:00"
       },
       {
        "flightNumber": "QR945+QR27",
@@ -412,7 +412,7 @@
         }
        ],
        "price": 1219,
-       "fetchedAt": "2026-10-22T01:52:19+08:00"
+       "fetchedAt": "2026-10-23T01:50:41+08:00"
       },
       {
        "flightNumber": "QR943+QR23",
@@ -432,7 +432,7 @@
         }
        ],
        "price": 1219,
-       "fetchedAt": "2026-10-22T01:52:19+08:00"
+       "fetchedAt": "2026-10-23T01:50:41+08:00"
       },
       {
        "flightNumber": "QR947+QR21",
@@ -452,7 +452,7 @@
         }
        ],
        "price": 1219,
-       "fetchedAt": "2026-10-22T01:52:19+08:00"
+       "fetchedAt": "2026-10-23T01:50:41+08:00"
       },
       {
        "flightNumber": "KL836+KL1031",
@@ -471,8 +471,8 @@
          "durationMin": 70
         }
        ],
-       "price": 1325,
-       "fetchedAt": "2026-10-22T01:52:19+08:00"
+       "price": 1326,
+       "fetchedAt": "2026-10-23T01:50:41+08:00"
       },
       {
        "flightNumber": "SQ302",
@@ -486,8 +486,8 @@
        "aircraft": "Airbus A350",
        "stops": 0,
        "layovers": [],
-       "price": 1514,
-       "fetchedAt": "2026-10-22T13:43:03+08:00"
+       "price": 1568,
+       "fetchedAt": "2026-10-23T01:50:37+08:00"
       }
      ]
     }
@@ -826,6 +826,58 @@
    "id": "6ad9a263afaa6711dcb71e15",
    "p": {
     "SQ302": 1514
+   }
+  },
+  {
+   "t": "2026-10-23T01:50:30+08:00",
+   "route": "LHR",
+   "d": "2027-01-16",
+   "r": "2027-06-05",
+   "id": "6ada4cde7d123341ddbb872f",
+   "p": {
+    "SQ308": 1366,
+    "SQ318": 1368,
+    "BA16": 1513,
+    "BA12": 1513,
+    "SQ322": 1765,
+    "QF1": 1943,
+    "SQ306": 1982,
+    "QF219": 2091
+   }
+  },
+  {
+   "t": "2026-10-23T01:50:34+08:00",
+   "route": "LHR",
+   "d": "2027-01-17",
+   "r": "2027-06-05",
+   "id": "6ada4ce64f56b9e85727b8b8",
+   "p": {
+    "BA12": 1248,
+    "SQ308": 1279,
+    "SQ318": 1279,
+    "BA16": 1513,
+    "SQ322": 1608,
+    "SQ306": 1765,
+    "QF219": 1943,
+    "QF1": 1943
+   }
+  },
+  {
+   "t": "2026-10-23T01:50:41+08:00",
+   "route": "MAN",
+   "d": "2027-01-18",
+   "r": "2027-06-05",
+   "id": "6ada4cea1ea4e93b25794f73",
+   "p": {
+    "GF166+GF5": 1033,
+    "EK349+EK17": 1117,
+    "EK355+EK21": 1117,
+    "LX177+LX390": 1119,
+    "QR945+QR27": 1219,
+    "QR943+QR23": 1219,
+    "QR947+QR21": 1219,
+    "KL836+KL1031": 1326,
+    "SQ302": 1568
    }
   }
  ]
