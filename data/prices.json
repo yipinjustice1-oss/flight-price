@@ -13,20 +13,20 @@
   "tripType": "Round trip"
  },
  "lastRun": {
-  "at": "2026-10-27T03:00:11+08:00",
+  "at": "2026-10-27T13:56:08+08:00",
   "status": "ok",
   "message": "Checked LHR 2027-01-16, LHR 2027-01-17, MAN 2027-01-18"
  },
  "usage": {
   "month": "2026-10",
-  "searches": 57
+  "searches": 60
  },
  "routes": {
   "LHR": {
    "latest": {
     "2027-01-16": {
-     "fetchedAt": "2026-10-27T03:00:15+08:00",
-     "searchId": "6adfa33b236d4cad8ae27015",
+     "fetchedAt": "2026-10-27T13:56:13+08:00",
+     "searchId": "6ae03cf825c657225991d3d6",
      "googleFlightsUrl": "https://www.google.com/travel/flights?hl=en&gl=sg&curr=SGD&tfs=CBwQAhogEgoyMDI3LTAxLTE2KABqBwgBEgNTSU5yBwgBEgNMSFIaIBIKMjAyNy0wNi0wNSgAagcIARIDTEhScgcIARIDU0lOQAFIAXABmAEB&tfu=EgIIAQ",
      "mixedSearchId": null,
      "mixedGoogleFlightsUrl": null,
@@ -135,7 +135,7 @@
        "aircraft": "Airbus A380",
        "stops": 0,
        "layovers": [],
-       "price": 1859
+       "price": 1861
       },
       {
        "flightNumber": "SQ306",
@@ -154,8 +154,8 @@
      ]
     },
     "2027-01-17": {
-     "fetchedAt": "2026-10-27T03:00:19+08:00",
-     "searchId": "6adfa33f1bd4f0a071a70a16",
+     "fetchedAt": "2026-10-27T13:56:19+08:00",
+     "searchId": "6ae03cfd6c6254ad020bfdf7",
      "googleFlightsUrl": "https://www.google.com/travel/flights?hl=en&gl=sg&curr=SGD&tfs=CBwQAhogEgoyMDI3LTAxLTE3KABqBwgBEgNTSU5yBwgBEgNMSFIaIBIKMjAyNy0wNi0wNSgAagcIARIDTEhScgcIARIDU0lOQAFIAXABmAEB&tfu=EgIIAQ",
      "mixedSearchId": null,
      "mixedGoogleFlightsUrl": null,
@@ -300,8 +300,8 @@
   "MAN": {
    "latest": {
     "2027-01-18": {
-     "fetchedAt": "2026-10-27T03:00:46+08:00",
-     "searchId": "6adfa3438d42f8fb1e245d8f",
+     "fetchedAt": "2026-10-27T13:56:22+08:00",
+     "searchId": "6ae03d038ffee12025f142e7",
      "googleFlightsUrl": "https://www.google.com/travel/flights?hl=en&gl=sg&curr=SGD&tfs=CBwQAhogEgoyMDI3LTAxLTE4KABqBwgBEgNTSU5yBwgBEgNNQU4aIBIKMjAyNy0wNi0wNSgAagcIARIDTUFOcgcIARIDU0lOQAFIAXABmAEB&tfu=EgIIAQ",
      "mixedSearchId": "6adfa34b25c657eccc50a05f",
      "mixedGoogleFlightsUrl": "https://www.google.com/travel/flights?hl=en&gl=sg&curr=SGD&tfs=CBwQAhogEgoyMDI3LTAxLTE4KAFqBwgBEgNTSU5yBwgBEgNNQU4aIBIKMjAyNy0wNi0wNSgBagcIARIDTUFOcgcIARIDU0lOQAFIAXABmAEB&tfu=EgIIAQ",
@@ -487,7 +487,7 @@
        "stops": 0,
        "layovers": [],
        "price": 1566,
-       "fetchedAt": "2026-10-27T03:00:27+08:00"
+       "fetchedAt": "2026-10-27T13:56:22+08:00"
       },
       {
        "flightNumber": "KL836+KL1031",
@@ -1280,6 +1280,50 @@
     "QF1+BA1360": 1255,
     "SQ302": 1566,
     "KL836+KL1031": 1597
+   }
+  },
+  {
+   "t": "2026-10-27T13:56:13+08:00",
+   "route": "LHR",
+   "d": "2027-01-16",
+   "r": "2027-06-05",
+   "id": "6ae03cf825c657225991d3d6",
+   "p": {
+    "QF1": 1271,
+    "BA16": 1513,
+    "BA12": 1513,
+    "SQ308": 1612,
+    "SQ318": 1612,
+    "QF219": 1687,
+    "SQ322": 1861,
+    "SQ306": 1977
+   }
+  },
+  {
+   "t": "2026-10-27T13:56:19+08:00",
+   "route": "LHR",
+   "d": "2027-01-17",
+   "r": "2027-06-05",
+   "id": "6ae03cfd6c6254ad020bfdf7",
+   "p": {
+    "QF1": 1134,
+    "SQ308": 1286,
+    "SQ318": 1286,
+    "BA12": 1309,
+    "QF219": 1403,
+    "BA16": 1513,
+    "SQ322": 1600,
+    "SQ306": 1974
+   }
+  },
+  {
+   "t": "2026-10-27T13:56:22+08:00",
+   "route": "MAN",
+   "d": "2027-01-18",
+   "r": "2027-06-05",
+   "id": "6ae03d038ffee12025f142e7",
+   "p": {
+    "SQ302": 1566
    }
   }
  ]
